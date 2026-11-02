@@ -77,3 +77,37 @@ write_report <- function(state, transitions, benchmarks, file, has_model = FALSE
   )
   writeLines(lines, file)
 }
+
+write_readme_findings <- function(benchmarks, file) {
+  summary <- benchmarks |>
+    dplyr::group_by(state) |>
+    dplyr::filter(transition == max(transition)) |>
+    dplyr::group_by(state, transition, level) |>
+    dplyr::summarise(
+      observed_sd = dplyr::first(observed_sd), noise_sd = mean(simulated_sd),
+      noise_lower = stats::quantile(simulated_sd, 0.025),
+      noise_upper = stats::quantile(simulated_sd, 0.975), .groups = "drop"
+    ) |>
+    dplyr::arrange(state, match(level, c("district", "block")))
+  labels <- c(rajasthan = "Rajasthan", uttar_pradesh = "Uttar Pradesh")
+  table <- c(
+    "| State | Transition | Variation across | Observed spread | Benchmark mean | 95% simulated range |",
+    "|---|---|---|---:|---:|---:|"
+  )
+  for (row in seq_len(nrow(summary))) {
+    value <- summary[row, ]
+    table <- c(table, sprintf(
+      "| %s | %s | %s | %.1f | %.1f | %.1f to %.1f |",
+      labels[[value$state]], gsub("-", " to ", value$transition),
+      paste0(value$level, "s"), 100 * value$observed_sd, 100 * value$noise_sd,
+      100 * value$noise_lower, 100 * value$noise_upper
+    ))
+  }
+  lines <- readLines(file)
+  start <- which(lines == "<!-- findings:start -->")
+  end <- which(lines == "<!-- findings:end -->")
+  if (length(start) != 1L || length(end) != 1L || start >= end) {
+    stop("README must have one ordered pair of findings markers")
+  }
+  writeLines(c(lines[seq_len(start)], "", table, "", lines[seq.int(end, length(lines))]), file)
+}

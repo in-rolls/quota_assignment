@@ -1,21 +1,52 @@
 # Geographic variation in reservation allocation
 
-How much do women's reservation patterns differ across districts and blocks
-covered by the same statewide policy? This project examines gram panchayat heads
-in Rajasthan and Uttar Pradesh using pinned inputs from
-[in-rolls/local_elections](https://github.com/in-rolls/local_elections).
+**Women's reservation patterns vary sharply across Rajasthan's districts and
+blocks in later election cycles, beyond what our simple sampling-noise benchmark
+produces.** In 2015 to 2020, the observed spread was about four times the
+benchmark mean across districts and twice the benchmark mean across blocks.
+Uttar Pradesh shows smaller departures: in its latest transition, block-level
+spread is consistent with the benchmark, although district-level spread is larger.
 
-The presentation separates district differences, block differences, and block
-differences within districts. The question is descriptive: geographic variation
-does not by itself establish different rules, bureaucratic discretion, or a
-failure of random assignment.
+We compare a seat's probability of reservation after a reserved cycle with its
+probability after an unreserved cycle. A negative difference means less immediate
+repetition. The table shows how much that difference varies across districts and
+across blocks, separately. Larger standard deviations mean greater geographic
+variation; all values are in percentage points.
 
-The generated transition figures show each administrative unit as a point. The horizontal axis gives reservation
-following an unreserved cycle; the vertical axis gives reservation following a
-reserved cycle. Points below the diagonal indicate less immediate repetition.
-These are raw rates with unequal precision, not estimates of noise-adjusted
-heterogeneity. The descriptive reports are generated in `tabs/`; figures are generated in
-`figs/`. These derived outputs stay local. See [methods](docs/design.md).
+<!-- findings:start -->
+
+| State | Transition | Variation across | Observed spread | Benchmark mean | 95% simulated range |
+|---|---|---|---:|---:|---:|
+| Rajasthan | 2015 to 2020 | districts | 30.1 | 7.5 | 5.3 to 10.0 |
+| Rajasthan | 2015 to 2020 | blocks | 40.0 | 20.6 | 18.5 to 22.8 |
+| Uttar Pradesh | 2015 to 2021 | districts | 5.5 | 3.9 | 3.1 to 4.9 |
+| Uttar Pradesh | 2015 to 2021 | blocks | 11.7 | 11.4 | 10.7 to 12.1 |
+
+<!-- findings:end -->
+
+Rajasthan's 2010 to 2015 transition shows similarly large departures. Its earliest linked
+transition does not. UP's departures are smaller and vary by cycle and geographic
+level. The benchmark gives every unit the same transition probabilities within
+each state and cycle, while retaining its observed sample sizes. The intervals
+show the middle 95% of simulated spreads, not confidence intervals for the
+observed spread.
+
+**We have evidence of variation beyond this noise benchmark, but have not yet
+estimated how much remains unexplained by the allocation rules.** Eligibility,
+quotas, caste composition, earlier reservation history and boundary changes may
+account for the differences. Nor have we estimated the share of block variation
+that lies between districts rather than within them. The hierarchical models are
+implemented; full empirical fits and simulation coverage validation are pending.
+These results do not identify bureaucratic discretion.
+
+The analysis covers uniquely matched gram panchayat heads in
+[in-rolls/local_elections](https://github.com/in-rolls/local_elections). Matches
+use district, block and panchayat names; they do not establish unchanged
+boundaries. Rajasthan's early linkage is especially incomplete, so these are
+findings about the linked sample. See [methods](docs/design.md).
+
+The table is rebuilt from the saved benchmarks by `scripts/05_tables.R`.
+Detailed reports and figures are generated locally in `tabs/` and `figs/`.
 
 ## Reproduce
 
