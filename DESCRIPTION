@@ -1,0 +1,33 @@
+Package: reservationpatterns
+Type: Project
+Title: Geographic Variation in Reservation Allocation
+Version: 0.2.0
+Authors@R: person("Gaurav", "Sood", role = c("aut", "cre"), email = "contact@gsood.com")
+Description: Reproducible analyses of women's reservation transitions among
+    gram panchayat heads in Rajasthan and Uttar Pradesh, describing district
+    and block variation with partial pooling and allocation benchmarks.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.5.0)
+Imports:
+    arrow,
+    brms,
+    digest,
+    dplyr,
+    ggplot2,
+    jsonlite,
+    posterior,
+    purrr,
+    readr,
+    rprojroot,
+    scales,
+    stringi,
+    stringr,
+    tibble,
+    tidyr
+Suggests:
+    lintr,
+    renv,
+    styler,
+    testthat
+Config/testthat/edition: 3

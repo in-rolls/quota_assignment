@@ -5,3 +5,12 @@ __pycache__/
 outputs/
 *.egg-info/
 .DS_Store
+.Rhistory
+.RData
+.Ruserdata
+data/build/
+tabs/
+figs/
+renv/library/
+renv/staging/
+renv/cache/
