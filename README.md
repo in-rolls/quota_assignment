@@ -192,3 +192,18 @@ No Python installation is needed. The previous implementation remains in Git
 history; its local generated artifacts are preserved outside the active pipeline.
 The R migration reproduces its matched panels exactly. Numerical posterior draws
 are not expected to match across PyMC and Stan. See [migration notes](docs/migration.md).
+
+## Research note
+
+The LaTeX manuscript is in [paper/main.tex](paper/main.tex), with a source-verified
+[bibliography](paper/references.bib) and an assignment/legal evidence appendix.
+Run `make analysis`, `make assignment`, and `make caste` to rebuild analysis
+outputs from the pinned upstream inputs, then `make paper` to audit the numbers,
+generate LaTeX tables, macros and figures, and compile `paper/main.pdf`.
+`make audit` runs the independent numerical checks and sensitivity analyses.
+The paper target uses saved estimates and does not fit the Bayesian models.
+
+The note describes geographic patterns and prediction disagreements. It does not
+estimate the causal contribution of bureaucratic discretion or certify historical
+rule compliance. Small-cell and linkage sensitivity, including the loss of most
+Rajasthan blocks under minimum-denominator restrictions, are part of its findings.

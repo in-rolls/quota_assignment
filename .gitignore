@@ -14,3 +14,12 @@ figs/
 renv/library/
 renv/staging/
 renv/cache/
+paper/build/
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.log
+paper/*.out
+paper/*.fls
+paper/*.fdb_latexmk
+paper/*.pdf

@@ -28,3 +28,10 @@ assignment:
 .PHONY: tables
 tables:
 	Rscript scripts/05_tables.R
+
+.PHONY: audit paper
+audit:
+	Rscript scripts/audit_note.R
+paper: tables audit
+	Rscript scripts/08_paper_exhibits.R
+	cd paper && latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex

@@ -1,0 +1,118 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype,graphicx,booktabs,longtable,array,amsmath}
+\usepackage[round,authoryear]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{placeins}
+\graphicspath{{build/}}
+\input{build/numbers.tex}
+\title{Geographic variation in local-government reservation assignment}
+\author{Gaurav Sood}
+\date{Research note --- \today}
+\begin{document}
+\maketitle
+\begin{abstract}
+Statewide descriptions of reservation assignment leave open how assignment patterns vary across administrative units. We examine women's reservation transitions in Rajasthan and Uttar Pradesh and disagreements with supplied assignment predictions for an Uttar Pradesh election. In Rajasthan's latest observed transition, district dispersion is \RajDistrictObserved\ percentage points, compared with \RajDistrictBenchmark\ under a homogeneous-transition benchmark. High statewide agreement with supplied predictions also coexists with geographic concentration of disagreements. These comparisons concern observed assignment patterns in the available data. The benchmarks do not reconstruct the complete legal allocation mechanism, and geographic concentration does not identify bureaucratic discretion. The evidence motivates a documentary investigation of where a stated rule yields different local outcomes and where its implementation differs.
+\end{abstract}
+
+\section{The finding and its interpretation}
+Reservation patterns vary across districts and blocks within states. The question is how much of that variation exceeds what a specified reference process would produce, and which part remains after accounting for the actual allocation procedure. A statewide average, balance test, or strong assignment discontinuity does not directly answer that question.
+
+We present two complementary descriptive exercises. The first follows women's reservation status across election cycles and compares geographic dispersion in transition contrasts with a common-probability benchmark. The second examines geographic concentration of disagreements between observed Uttar Pradesh reservations and predictions supplied in a published replication archive \citep{cdm2025}. Their measurements differ: a transition contrast describes repetition across cycles, whereas a prediction disagreement compares two assignments for the same election. We do not combine them into a single compliance index.
+
+The sharpest transition result is in Rajasthan. In the 2015--2020 transition, the standard deviation across district contrasts is \RajDistrictObserved\ percentage points, compared with a benchmark mean of \RajDistrictBenchmark. Across blocks the corresponding figures are \RajBlockObserved\ and \RajBlockBenchmark. Uttar Pradesh's latest district spread exceeds its reference range, while its block spread lies within that range. The supplied-prediction exercise establishes that low statewide disagreement can nevertheless be geographically concentrated.
+
+The contribution is to measure this dispersion and examine its sensitivity, not to establish that earlier studies overlooked assignment. The evidence appendix distinguishes studies \citep{chauchard2014,dunning2013,das2023,cdm2025,weaver2024} that describe procedures, assess balance, reconstruct assignment, or examine implementation heterogeneity. It also distinguishes their populations and election cycles. Our results do not invalidate their outcome estimates: that would require examining their identifying comparisons, the location of discrepancies relative to those comparisons, and the relevant outcome assumptions. Reexamining identifying claims across periods is also central to \citet{green2023}; the related reservation study by \citet{soodquota} motivates attention to the assignment process underlying comparisons across cycles.
+
+\section{Institutional expectations}
+For the offices examined here, the relevant institutional hierarchy runs from the Indian Constitution through state legislation and rules to applicable administrative orders \citep{constitution,rajasthanact,rajasthanrules,upact,uprules,up2021}. Constitutional requirements and delegation to states do not themselves establish authority for districts to adopt different procedures. Equally, assigning an officer responsibility for implementing a procedure does not imply unrestricted discretion over its content. The appendix records the legal provisions and the limits of their historical applicability.
+
+A common procedure need not imply identical unconditional transition rates. The eligible pool, quota, reservation history, caste-category allocation, and lottery realization can differ across places. These are empirical explanations to test, not reasons to dismiss geographic heterogeneity. An adequate explanation must show that the same applicable procedure, supplied with the correct local inputs, generates the relevant pattern.
+
+Conversely, a procedural departure requires comparison with the operative rule and the information it required. A prediction error against a researcher's reconstruction is not automatically such a departure. Where several historical reconstructions remain plausible, the appropriate output is a range of compatible assignments or a classification as unresolved. A contemporaneous official list, a modern population aggregate, and an author's predicted assignment are distinct objects.
+
+\section{Data and measurement}
+The transition exercise reads checksum-pinned Rajasthan and Uttar Pradesh master panels from the upstream \texttt{local\_elections} repository. The analysis identifies GP-head observations and links reservation status across configured general-election cycles. Geographic identities and matching decisions are part of the measurement process. Early Rajasthan coverage is particularly incomplete. Consequently, the estimands concern the linked observations that enter each comparison, not an established census of historically unchanged GPs.
+
+The second exercise uses the Chaturvedi--Das--Mahajan replication data. The upstream study repository supplies this input. There are \AuditN\ records with observed assignments and the required geography in the audit sample. The primary women's prediction is the supplied instrument; a separate supplied prediction is retained as a sensitivity. SC and ST assignments are examined separately. Missing observations retain their exclusion status rather than being recoded as unreserved.
+
+The Census linkage extension uses upstream village--GP mappings and SHRUG population data. Weaver's March 2025 source and prepared wide panel reside in \texttt{local\_elections\_up}; they are not an unpublished dependency of this repository. Modern GP boundaries do not establish historical boundaries. The linkage therefore informs future reconstruction and is not used to certify historical rank-rule compliance in this note.
+
+\section{Estimands and reference distributions}
+For geographic unit $g$ and transition $t$, define
+\[
+\Delta_{gt}=\Pr(W_t=1\mid W_{t-1}=1,g)-\Pr(W_t=1\mid W_{t-1}=0,g),
+\]
+where $W$ indicates reservation of the office for a woman. We estimate each probability by its observed linked-sample proportion. A negative contrast describes less immediate repetition; it does not, by itself, establish lawful rotation. Units without observations in both lag groups cannot identify this contrast and are excluded from its dispersion calculation.
+
+The primary geographic spread is the equal-unit standard deviation of these contrasts. The benchmark probabilities are estimated from all linked seats in the transition, whereas dispersion requires both lag groups within a geographic unit. The audit evaluates this support difference. District contrasts are computed directly from their GP observations. Block contrasts are calculated within blocks nested in districts. Seat-weighted summaries answer a different question and enter the sensitivity analysis. The observed dispersion includes variation associated with finite group sizes.
+
+The transition benchmark fixes each included unit's two lag-group denominators and independently draws current reservations using statewide probabilities conditional on prior reservation. It estimates the spread produced by that homogeneous Bernoulli process. It does not preserve local quotas, reconstruct eligibility, or simulate a sequence of legally constrained lotteries. Its simulated range is a reference distribution conditional on fitted probabilities, not a confidence interval for a latent geographic variance.
+
+For the supplied-prediction exercise, define $M_i=1$ when observed and predicted reservation disagree. We report its statewide mean, geographic rates, and their dispersion. The reference distribution redistributes observed disagreement indicators within caste/prediction strata, preserving stratum totals and geographic sample sizes. This addresses concentration relative to exchangeable disagreements. It does not preserve every feature of a feasible joint assignment and is not a randomization test of the legal allocation mechanism.
+
+We also decompose observed block-rate variance into between-district and within-district components using the same weights throughout the identity. The between component uses district averages of block rates under those weights; it is not interchangeable with the separately calculated dispersion of direct district rates. The resulting share includes finite-group variation and must not be interpreted as the fraction of underlying variation caused by district administrations.
+
+\section{Geographic results}
+Figure~\ref{fig:transitions} compares observed transition dispersion with the homogeneous-process reference. Rajasthan's latest transition has substantial excess dispersion at both administrative levels. Its earliest observed transition lies within the reference range at both levels; excess dispersion appears in the two later transitions. This timing motivates investigation of period-specific inputs and procedures rather than a presumption of fixed district behavior. Uttar Pradesh's latest district spread is \UpDistrictObserved\ percentage points against \UpDistrictBenchmark\ in the reference; its block spread is \UpBlockObserved\ against \UpBlockBenchmark. The comparison therefore does not support a blanket statement that every state and administrative level exhibits equally large departures.
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=\linewidth]{transition_spread.pdf}
+\caption{Dispersion of women's reservation-transition contrasts. The universe is linked GP-head observations with both lag groups represented within each included unit. Points show observed spread and the homogeneous-process benchmark mean; intervals show the middle 95\% of simulated benchmark spreads. Units are percentage points. The simulation preserves lag-group sizes, not the complete legal assignment mechanism.}\label{fig:transitions}
+\end{figure}
+
+Statewide disagreement with the primary women's prediction is \WomenMismatchRate\ percent. The SC and ST disagreement rates are \ScMismatchRate\ and \StMismatchRate\ percent. These rates use all available observations, including seats both sources classify as unreserved. For a rare category, high overall agreement can consequently coexist with appreciable disagreement among seats classified as reserved by either source. The generated audit table reports that alternative denominator as well.
+
+Figure~\ref{fig:assignment} asks whether the observed disagreements are geographically concentrated relative to the stratified reference. Women's and SC disagreements show greater dispersion than that reference. For SC, \ScBalancedBlocks\ of the \ScAffectedBlocks\ blocks with disagreements have equal numbers of false-positive and false-negative assignments. This pattern is compatible with within-pool substitutions that preserve the total quota, although it does not establish their cause. ST has few disagreements and is weakly informative about geographic implementation. The primary women's instrument and alternative prediction remain separate specifications; neither is treated as an independently verified legal assignment.
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=\linewidth]{assignment_spread.pdf}
+\caption{Geographic spread of supplied-prediction disagreements in Uttar Pradesh. Observed spread is compared with the mean and middle 95\% range from redistributing disagreement labels within the specified strata. Geographic units receive equal weight. The reference conditions on the number of disagreements; it does not estimate their cause or simulate lawful joint caste allocation.}\label{fig:assignment}
+\end{figure}
+
+Figure~\ref{fig:distribution} makes the denominators visible. An extreme rate from a small administrative unit should not carry the same evidentiary weight as a comparable rate measured across many seats. The figure displays the observed quantities without attaching model-based confidence intervals to full-source descriptive counts. Selection into the available source universe remains a separate uncertainty.
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=\linewidth]{geographic_distribution.pdf}
+\caption{Prediction disagreements and geographic sample sizes. Each point represents an observed district or block. The horizontal axis reports its available GP denominator on a logarithmic scale; the vertical axis reports its disagreement rate. Facets distinguish prediction outcomes and administrative levels. These are descriptive rates, not estimated official propensities.}\label{fig:distribution}
+\end{figure}
+\FloatBarrier
+
+\section{Audit and sensitivity}
+The audit reconstructs the headline quantities independently and checks the distinction between the units observed and the units summarized. Its sensitivity analyses examine minimum denominators, equal-unit and seat weights, influential districts, and alternative predictions. Removing small groups changes the target population; such results must be read with their retained counts rather than presented as an automatic improvement over the primary analysis.
+
+The reference processes impose stronger assumptions than arithmetic correctness. Independence in the transition simulation excludes within-pool quota dependence. Exchangeability in the disagreement exercise excludes geographically correlated prediction or measurement error beyond the chosen strata. Errors in a single population input or rotation baseline can change several predictions within the same allocation pool. Fixed quotas can also pair an extra reservation with an omitted reservation elsewhere in that pool. Thus geographic concentration can arise from correlated reconstruction errors even without a departure by an official. Departures from these references can therefore reflect several mechanisms. The supplementary audit reports which numerical identities were verified and which assumptions cannot be established with current inputs.
+
+\IfFileExists{build/audit_summary.tex}{\input{build/audit_summary.tex}}{}
+
+\section{What would explain the variation?}
+The immediate finding is geographic heterogeneity unexplained by the reference processes used here. Attributing it to bureaucratic discretion requires additional evidence. A useful investigation would reconstruct complete allocation pools using contemporaneous rosters, population inputs, reservation histories, draft lists, objections, and final signed orders. Sampling high- and low-disagreement areas together with randomly selected areas would permit both mechanism discovery and an assessment of prevalence.
+
+The investigation should distinguish incorrect research inputs, documented exceptions, different administrative interpretations, clerical or capacity failures, and deliberate choices. A district that consistently uses another rotation baseline presents a different mechanism from isolated targeted seat substitutions. Correct quota totals with different GP selections would locate the discrepancy in selection; incorrect totals would also implicate quota construction or definitions.
+
+Political intervention is a further hypothesis. Evidence would need to show who requested or authorized changes and which actors stood to benefit before assignment. Winning candidates are downstream of reservation and cannot alone establish why an assignment was made. Likewise, changes following an officer's transfer are descriptive unless the selection and timing of transfers support a causal comparison.
+
+The legal question remains specific: which applicable provision permits the observed departure, if any? Geographic location alone supplies no justification. The statistical question is equally specific: which documented inputs and dependence structure can account for the observed distribution? Both questions can be pursued without treating every unexplained residual as discretion or every conceivable exception as an explanation.
+
+\clearpage
+\bibliographystyle{plainnat}
+\bibliography{references}
+\clearpage\appendix
+\section{Generated numerical exhibits}
+\subsection{Transition dispersion}
+\input{build/transition_table.tex}
+\subsection{Supplied-prediction disagreements}
+\input{build/assignment_table.tex}
+\subsection{Geographic disagreement benchmarks}
+\input{build/assignment_benchmark_table.tex}
+
+Reference ranges are the middle 95\% of the stratified disagreement permutations; all spreads are in percentage points and use equal geographic-unit weights. They are not confidence intervals.
+\subsection{Population-linkage coverage}
+\input{build/coverage_table.tex}
+\IfFileExists{build/audit_table.tex}{\subsection{Audit sensitivities}\resizebox{\linewidth}{!}{\input{build/audit_table.tex}}
+
+Each row uses the latest transition for its state. Minimum is the required GP count in each prior-reservation group. Units and GPs describe retained support; SD is the equal-unit standard deviation in percentage points. LODO low and high are the smallest and largest spreads after leaving out one district; these are influence ranges, not confidence intervals.}{}
+\clearpage
+\input{evidence.tex}
+\end{document}
