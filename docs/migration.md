@@ -37,3 +37,11 @@ and produced three transition estimates each. These short runs failed the strict
 sampling-diagnostics gate; they verify execution, not inferential calibration.
 Full simulation coverage validation and empirical Bayesian fits remain separate
 from this software migration. Generated tables, figures and model output remain local.
+
+## Repository name
+
+The repository and local directory were renamed from `reservation-patterns` to
+`quota_assignment` to follow the `in-rolls` research repository naming convention.
+The R project identifier changed from `reservationpatterns` to `quotaassignment`.
+The analysis covers women's and caste reservations, including rotation and
+geographic variation in assignment.

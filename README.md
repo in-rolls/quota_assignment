@@ -1,4 +1,4 @@
-# Geographic variation in reservation allocation
+# Quota assignment: geographic variation in reservation allocation
 
 **Women's reservation patterns vary sharply across Rajasthan's districts and
 blocks in later election cycles, beyond what our simple sampling-noise benchmark
