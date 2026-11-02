@@ -1,5 +1,9 @@
 root <- rprojroot::find_root(rprojroot::has_file("DESCRIPTION"))
-for (module in c("sources", "panels", "transitions", "models", "simulations", "paper")) {
+modules <- c(
+  "sources", "panels", "transitions", "models", "simulations", "paper",
+  "caste_population", "caste_assignment", "assignment_residuals"
+)
+for (module in modules) {
   source(file.path(root, "R", paste0(module, ".R")))
 }
 

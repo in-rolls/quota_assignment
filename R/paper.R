@@ -111,3 +111,87 @@ write_readme_findings <- function(benchmarks, file) {
   }
   writeLines(c(lines[seq_len(start)], "", table, "", lines[seq.int(end, length(lines))]), file)
 }
+
+write_caste_summary <- function(coverage, link_coverage, report_file, readme_file) {
+  labels <- c(rajasthan = "Rajasthan", uttar_pradesh = "Uttar Pradesh")
+  population <- coverage |>
+    dplyr::filter(census_year == 2011L) |>
+    dplyr::group_by(state) |>
+    dplyr::summarise(total = sum(gps), available = sum(gps[population_status == "available"]), .groups = "drop")
+  table <- c(
+    "Census 2011 population on the 2024 GP mapping:", "",
+    "| State | GPs in catalog | Population passes checks | Share of catalog |",
+    "|---|---:|---:|---:|"
+  )
+  for (i in seq_len(nrow(population))) {
+    row <- population[i, ]
+    table <- c(table, sprintf(
+      "| %s | %s | %s | %.1f%% |", labels[[row$state]],
+      format(row$total, big.mark = ","), format(row$available, big.mark = ","), 100 * row$available / row$total
+    ))
+  }
+  links <- link_coverage |>
+    dplyr::filter(census_year == 2011L) |>
+    dplyr::group_by(state, source) |>
+    dplyr::filter(year == max(year)) |>
+    dplyr::summarise(
+      year = dplyr::first(year), records = sum(seats),
+      linked = sum(seats[link_status == "linked"]), .groups = "drop"
+    )
+  table <- c(
+    table, "", "Latest source wave linked to those population aggregates:", "",
+    "| State | Election source | Source year | Linked records | Source records |",
+    "|---|---|---|---:|---:|"
+  )
+  for (i in seq_len(nrow(links))) {
+    row <- links[i, ]
+    year <- if (row$source == "weaver") paste(row$year, "(unverified)") else as.character(row$year)
+    table <- c(table, sprintf(
+      "| %s | %s | %s | %s | %s |", labels[[row$state]], row$source, year,
+      format(row$linked, big.mark = ","), format(row$records, big.mark = ",")
+    ))
+  }
+  table <- c(
+    table, "",
+    "Name matching selects a small subset, especially in Rajasthan. Weaver's supplied LGD codes",
+    "give broader UP coverage. These are linkage results, not estimates of rule compliance."
+  )
+  writeLines(c(
+    "# Caste assignment: build results", "",
+    "Unexplained geographic variation in caste assignment has not yet been estimated.",
+    "The population/linkage build is complete; historical allocation inputs remain unresolved.", "", table, "",
+    "Detailed SC and ST share-order tables are separate by district and block, source and Census vintage.",
+    "They are unadjusted matched-sample diagnostics. Rotation can generate ordering discrepancies.",
+    "Pair counts are dependent; do not interpret them as binomial sample sizes.",
+    "The 2010 Weaver wave has no accepted diagnostic links: election geography is missing or GP codes are ambiguous."
+  ), report_file)
+  lines <- readLines(readme_file)
+  start <- which(lines == "<!-- caste_findings:start -->")
+  end <- which(lines == "<!-- caste_findings:end -->")
+  if (length(start) != 1L || length(end) != 1L || start >= end) stop("Missing ordered caste findings markers")
+  writeLines(c(lines[seq_len(start)], "", table, "", lines[seq.int(end, length(lines))]), readme_file)
+}
+
+write_assignment_findings <- function(summary, benchmarks, file) {
+  labels <- c(women_instrument = "Women", sc = "SC", st = "ST")
+  table <- c(
+    paste("| Assignment | Disagreements among all observed GPs |",
+          "District spread: observed / benchmark (pp) | Block spread: observed / benchmark (pp) |"),
+    "|---|---:|---:|---:|"
+  )
+  for (outcome in names(labels)) {
+    row <- dplyr::filter(summary, .data$outcome == .env$outcome)
+    district <- dplyr::filter(benchmarks, .data$outcome == .env$outcome, statistic == "equal_unit:district_sd")
+    block <- dplyr::filter(benchmarks, .data$outcome == .env$outcome, statistic == "equal_unit:block_sd")
+    table <- c(table, sprintf(
+      "| %s | %s / %s (%.2f%%) | %.2f / %.2f | %.2f / %.2f |", labels[[outcome]],
+      format(row$mismatches, big.mark = ","), format(row$seats, big.mark = ","), 100 * row$mismatch_rate,
+      100 * district$observed, 100 * district$benchmark_mean, 100 * block$observed, 100 * block$benchmark_mean
+    ))
+  }
+  lines <- readLines(file)
+  start <- which(lines == "<!-- assignment_findings:start -->")
+  end <- which(lines == "<!-- assignment_findings:end -->")
+  if (length(start) != 1L || length(end) != 1L || start >= end) stop("Missing ordered assignment findings markers")
+  writeLines(c(lines[seq_len(start)], "", table, "", lines[seq.int(end, length(lines))]), file)
+}

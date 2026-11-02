@@ -16,3 +16,11 @@ lint:
 test:
 	Rscript -e 'testthat::test_dir("tests/testthat", stop_on_failure = TRUE)'
 check: lint test
+
+.PHONY: caste
+caste:
+	Rscript scripts/06_caste_assignment.R
+
+.PHONY: assignment
+assignment:
+	Rscript scripts/07_assignment_residuals.R

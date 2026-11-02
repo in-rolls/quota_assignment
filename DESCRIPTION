@@ -3,9 +3,10 @@ Type: Project
 Title: Geographic Variation in Reservation Allocation
 Version: 0.2.0
 Authors@R: person("Gaurav", "Sood", role = c("aut", "cre"), email = "contact@gsood.com")
-Description: Reproducible analyses of women's reservation transitions among
-    gram panchayat heads in Rajasthan and Uttar Pradesh, describing district
-    and block variation with partial pooling and allocation benchmarks.
+Description: Reproducible analyses of reservation allocation among gram
+    panchayat heads in Rajasthan and Uttar Pradesh. Describes district and
+    block variation in women's reservation and audits population linkage
+    for Scheduled Caste and Scheduled Tribe assignment diagnostics.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: R (>= 4.5.0)
@@ -15,6 +16,7 @@ Imports:
     digest,
     dplyr,
     ggplot2,
+    haven,
     jsonlite,
     posterior,
     purrr,

@@ -1,0 +1,58 @@
+[
+  {
+    "name": "rural_keys",
+    "root": "shrug",
+    "path": "shrug-pc-keys-csv/pc11r_shrid_key.csv",
+    "sha256": "7a7aebcf3a3ac1503c601ccabb6052c4aff34ffbc257f0d7295ef6e922303dac",
+    "bytes": 32532769
+  },
+  {
+    "name": "urban_keys",
+    "root": "shrug",
+    "path": "shrug-pc-keys-csv/pc11u_shrid_key.csv",
+    "sha256": "da072a65d025fa709dce316dacebd9f5b349ac78502e06864eb92f4683a56a2e",
+    "bytes": 443534
+  },
+  {
+    "name": "census_2001",
+    "root": "shrug",
+    "path": "shrug-pca01-csv/pc01_pca_clean_shrid.csv.zip",
+    "sha256": "a48fe8bc92718dcba62c285a2003c8f2e9f3def0102b3540b761d6a502344e6a",
+    "bytes": 46211823
+  },
+  {
+    "name": "census_2011",
+    "root": "shrug",
+    "path": "shrug-pca11-csv/pc11_pca_clean_shrid.csv",
+    "sha256": "2f0e57667641dfbf731cbc9bfad8d8bd3690873a556ed01cb38bc467280c8ff2",
+    "bytes": 260376622
+  },
+  {
+    "name": "rajasthan_lgd",
+    "root": "in_rolls",
+    "path": "local_elections_rajasthan/data/reference/geography/raj_village_gp_mapping_2024.csv",
+    "sha256": "469888c02b619802be44933fdb9a4a14e4c921c46712d6d4f15f83dc784342b6",
+    "bytes": 4456693
+  },
+  {
+    "name": "uttar_pradesh_lgd",
+    "root": "in_rolls",
+    "path": "local_elections_up/data/reference/lgd/up_village_gp_mapping_2024.csv",
+    "sha256": "01ce35bbaed75b94dc4b8272e31ad986eb1527dd30f7cc7ce0114f462acbb344",
+    "bytes": 10847924
+  },
+  {
+    "name": "weaver_wide",
+    "root": "in_rolls",
+    "path": "local_elections_up/data/release/linkage/weaver_20250317_wide.parquet",
+    "sha256": "5450407c8200ccd4ab501f4a6ae5865b06cefb8dc79ba11ecdd2333a12ec160a",
+    "bytes": 13248492
+  },
+  {
+    "name": "weaver_raw",
+    "root": "in_rolls",
+    "path": "local_elections_up/data/reference/weaver/weaver_data_2.dta.gz",
+    "sha256": "2a79036d7de6c1bfcfd17fdad7652caad58d70458a298eb1ad534fd383515aec",
+    "bytes": 24346987
+  }
+]

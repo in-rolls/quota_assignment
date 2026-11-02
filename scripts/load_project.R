@@ -1,4 +1,8 @@
 source("scripts/00_config.R")
-for (module in c("sources", "panels", "transitions", "models", "simulations", "paper")) {
+modules <- c(
+  "sources", "panels", "transitions", "models", "simulations", "paper",
+  "caste_population", "caste_assignment", "assignment_residuals"
+)
+for (module in modules) {
   source(project_file("R", paste0(module, ".R")))
 }

@@ -100,3 +100,6 @@ simulates from common state-transition probabilities. It is not randomization
 inference under an official assignment mechanism. Eligibility, category composition,
 quotas, longer history and boundary changes remain rival explanations for geographic
 variation. Causal attribution to discretion is outside this descriptive stage.
+
+The separate [caste assignment design](caste_design.md) defines the SC/ST extension,
+its historical identification requirements and the intended residual-variation estimands.
