@@ -3,5 +3,9 @@
   "sha256": "8b825fadb35094e8ac6a91259615d7f52c3bb8c38d90ed43dea24cac090f6ee8",
   "bytes": 148626939,
   "source": "https://doi.org/10.7910/DVN/Z6RRUE",
-  "version_note": "Local GP-level replication file; supplied predictions, no independent legal reconstruction"
+  "version_note": "Author replication file restored from Dataverse into quota_sanitation/data; supplied predictions, no independent legal reconstruction",
+  "repository": "https://github.com/in-rolls/quota_sanitation",
+  "source_commit": "6e1b2caf55b5a96c0793fb754271a79ce5a48a94",
+  "archive_url": "https://dataverse.harvard.edu/api/access/datafile/7677114",
+  "archive_md5": "a03621635795a85f5d997482acda163b"
 }

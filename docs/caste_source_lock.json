@@ -32,27 +32,39 @@
     "root": "in_rolls",
     "path": "local_elections_rajasthan/data/reference/geography/raj_village_gp_mapping_2024.csv",
     "sha256": "469888c02b619802be44933fdb9a4a14e4c921c46712d6d4f15f83dc784342b6",
-    "bytes": 4456693
+    "bytes": 4456693,
+    "repository": "https://github.com/in-rolls/local_elections_rajasthan",
+    "source_commit": "8bfdf8123296b451336a28b1fb054217c4f263ee",
+    "source_url": "https://github.com/in-rolls/local_elections_rajasthan/blob/8bfdf8123296b451336a28b1fb054217c4f263ee/data/reference/geography/raj_village_gp_mapping_2024.csv"
   },
   {
     "name": "uttar_pradesh_lgd",
     "root": "in_rolls",
     "path": "local_elections_up/data/reference/lgd/up_village_gp_mapping_2024.csv",
     "sha256": "01ce35bbaed75b94dc4b8272e31ad986eb1527dd30f7cc7ce0114f462acbb344",
-    "bytes": 10847924
+    "bytes": 10847924,
+    "repository": "https://github.com/in-rolls/local_elections_up",
+    "source_commit": "4c84846114cebddda944e0a4947eaae1aaec47ae",
+    "source_url": "https://github.com/in-rolls/local_elections_up/blob/4c84846114cebddda944e0a4947eaae1aaec47ae/data/reference/lgd/up_village_gp_mapping_2024.csv"
   },
   {
     "name": "weaver_wide",
     "root": "in_rolls",
     "path": "local_elections_up/data/release/linkage/weaver_20250317_wide.parquet",
     "sha256": "5450407c8200ccd4ab501f4a6ae5865b06cefb8dc79ba11ecdd2333a12ec160a",
-    "bytes": 13248492
+    "bytes": 13248492,
+    "repository": "https://github.com/in-rolls/local_elections_up",
+    "source_commit": "4c84846114cebddda944e0a4947eaae1aaec47ae",
+    "source_url": "https://github.com/in-rolls/local_elections_up/blob/4c84846114cebddda944e0a4947eaae1aaec47ae/data/release/linkage/weaver_20250317_wide.parquet"
   },
   {
     "name": "weaver_raw",
     "root": "in_rolls",
     "path": "local_elections_up/data/reference/weaver/weaver_data_2.dta.gz",
     "sha256": "2a79036d7de6c1bfcfd17fdad7652caad58d70458a298eb1ad534fd383515aec",
-    "bytes": 24346987
+    "bytes": 24346987,
+    "repository": "https://github.com/in-rolls/local_elections_up",
+    "source_commit": "4c84846114cebddda944e0a4947eaae1aaec47ae",
+    "source_url": "https://github.com/in-rolls/local_elections_up/blob/4c84846114cebddda944e0a4947eaae1aaec47ae/data/reference/weaver/weaver_data_2.dta.gz"
   }
 ]

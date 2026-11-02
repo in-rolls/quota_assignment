@@ -24,3 +24,7 @@ caste:
 .PHONY: assignment
 assignment:
 	Rscript scripts/07_assignment_residuals.R
+
+.PHONY: tables
+tables:
+	Rscript scripts/05_tables.R

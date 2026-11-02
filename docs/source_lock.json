@@ -3,5 +3,6 @@
   "sha256": {
     "rajasthan": "a383a9722704d9c8ceddde7be61d883ad94d8ee90d348a1eaea91c45f62dd4b5",
     "uttar_pradesh": "ba7844ebf0f1ee0280fdde4dbf252bc8e685a79e2f66c3bc7aeaebbf8902a027"
-  }
+  },
+  "repository": "https://github.com/in-rolls/local_elections"
 }

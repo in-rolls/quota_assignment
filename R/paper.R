@@ -52,22 +52,24 @@ write_report <- function(state, transitions, benchmarks, file, has_model = FALSE
       noise_lower = stats::quantile(simulated_sd, 0.025),
       noise_upper = stats::quantile(simulated_sd, 0.975), .groups = "drop"
     )
+  table <- summary |>
+    dplyr::transmute(
+      level, transition,
+      observed_sd = 100 * observed_sd, noise_sd = 100 * noise_sd,
+      interval = sprintf("%.1f to %.1f", 100 * noise_lower, 100 * noise_upper)
+    )
   lines <- c(
     paste("# Reservation patterns:", state), "",
     "Raw district and block transition rates are descriptive associations in the linked sample.",
     "The benchmark assumes common transition probabilities and preserves observed lag-group sizes.",
     "It does not enforce quotas or eligibility and is not a test of the official allocation mechanism.", "",
     paste("Bayesian model output available:", has_model), "",
-    "| Level | Transition | Observed SD (pp) | Mean noise SD (pp) | 95% noise interval (pp) |",
-    "|---|---|---:|---:|---:|"
+    knitr::kable(table,
+      format = "pipe", digits = 1, row.names = FALSE,
+      col.names = c("Level", "Transition", "Observed SD (pp)", "Mean noise SD (pp)", "95% noise interval (pp)"),
+      align = c("l", "l", "r", "r", "r")
+    )
   )
-  for (row in seq_len(nrow(summary))) {
-    value <- summary[row, ]
-    lines <- c(lines, sprintf(
-      "| %s | %s | %.1f | %.1f | %.1f–%.1f |", value$level, value$transition,
-      100 * value$observed_sd, 100 * value$noise_sd, 100 * value$noise_lower, 100 * value$noise_upper
-    ))
-  }
   lines <- c(
     lines, "", paste(
       "Sampling diagnostics, simulation coverage and linkage sensitivity",
@@ -90,19 +92,19 @@ write_readme_findings <- function(benchmarks, file) {
     ) |>
     dplyr::arrange(state, match(level, c("district", "block")))
   labels <- c(rajasthan = "Rajasthan", uttar_pradesh = "Uttar Pradesh")
-  table <- c(
-    "| State | Transition | Variation across | Observed spread | Benchmark mean | 95% simulated range |",
-    "|---|---|---|---:|---:|---:|"
-  )
-  for (row in seq_len(nrow(summary))) {
-    value <- summary[row, ]
-    table <- c(table, sprintf(
-      "| %s | %s | %s | %.1f | %.1f | %.1f to %.1f |",
-      labels[[value$state]], gsub("-", " to ", value$transition),
-      paste0(value$level, "s"), 100 * value$observed_sd, 100 * value$noise_sd,
-      100 * value$noise_lower, 100 * value$noise_upper
-    ))
-  }
+  table <- summary |>
+    dplyr::transmute(
+      state = labels[state], transition = gsub("-", " to ", transition),
+      level = paste0(level, "s"), observed_sd = 100 * observed_sd, noise_sd = 100 * noise_sd,
+      interval = sprintf("%.1f to %.1f", 100 * noise_lower, 100 * noise_upper)
+    ) |>
+    knitr::kable(
+      format = "pipe", digits = 1, row.names = FALSE,
+      col.names = c(
+        "State", "Transition", "Variation across", "Observed spread", "Benchmark mean", "95% simulated range"
+      ),
+      align = c("l", "l", "l", "r", "r", "r")
+    )
   lines <- readLines(file)
   start <- which(lines == "<!-- findings:start -->")
   end <- which(lines == "<!-- findings:end -->")
@@ -118,18 +120,15 @@ write_caste_summary <- function(coverage, link_coverage, report_file, readme_fil
     dplyr::filter(census_year == 2011L) |>
     dplyr::group_by(state) |>
     dplyr::summarise(total = sum(gps), available = sum(gps[population_status == "available"]), .groups = "drop")
-  table <- c(
-    "Census 2011 population on the 2024 GP mapping:", "",
-    "| State | GPs in catalog | Population passes checks | Share of catalog |",
-    "|---|---:|---:|---:|"
-  )
-  for (i in seq_len(nrow(population))) {
-    row <- population[i, ]
-    table <- c(table, sprintf(
-      "| %s | %s | %s | %.1f%% |", labels[[row$state]],
-      format(row$total, big.mark = ","), format(row$available, big.mark = ","), 100 * row$available / row$total
-    ))
-  }
+  population_table <- population |>
+    dplyr::transmute(
+      state = labels[state], total, available, share = sprintf("%.1f%%", 100 * available / total)
+    ) |>
+    knitr::kable(
+      format = "pipe", row.names = FALSE, format.args = list(big.mark = ","),
+      col.names = c("State", "GPs in catalog", "Population passes checks", "Share of catalog"),
+      align = c("l", "r", "r", "r")
+    )
   links <- link_coverage |>
     dplyr::filter(census_year == 2011L) |>
     dplyr::group_by(state, source) |>
@@ -138,19 +137,21 @@ write_caste_summary <- function(coverage, link_coverage, report_file, readme_fil
       year = dplyr::first(year), records = sum(seats),
       linked = sum(seats[link_status == "linked"]), .groups = "drop"
     )
+  link_table <- links |>
+    dplyr::transmute(
+      state = labels[state], source,
+      year = ifelse(source == "weaver", paste(year, "(unverified)"), as.character(year)),
+      linked, records
+    ) |>
+    knitr::kable(
+      format = "pipe", row.names = FALSE, format.args = list(big.mark = ","),
+      col.names = c("State", "Election source", "Source year", "Linked records", "Source records"),
+      align = c("l", "l", "l", "r", "r")
+    )
   table <- c(
-    table, "", "Latest source wave linked to those population aggregates:", "",
-    "| State | Election source | Source year | Linked records | Source records |",
-    "|---|---|---|---:|---:|"
+    "Census 2011 population on the 2024 GP mapping:", "", population_table, "",
+    "Latest source wave linked to those population aggregates:", "", link_table
   )
-  for (i in seq_len(nrow(links))) {
-    row <- links[i, ]
-    year <- if (row$source == "weaver") paste(row$year, "(unverified)") else as.character(row$year)
-    table <- c(table, sprintf(
-      "| %s | %s | %s | %s | %s |", labels[[row$state]], row$source, year,
-      format(row$linked, big.mark = ","), format(row$records, big.mark = ",")
-    ))
-  }
   table <- c(
     table, "",
     "Name matching selects a small subset, especially in Rajasthan. Weaver's supplied LGD codes",
@@ -174,24 +175,86 @@ write_caste_summary <- function(coverage, link_coverage, report_file, readme_fil
 
 write_assignment_findings <- function(summary, benchmarks, file) {
   labels <- c(women_instrument = "Women", sc = "SC", st = "ST")
-  table <- c(
-    paste("| Assignment | Disagreements among all observed GPs |",
-          "District spread: observed / benchmark (pp) | Block spread: observed / benchmark (pp) |"),
-    "|---|---:|---:|---:|"
-  )
-  for (outcome in names(labels)) {
+  table <- purrr::map_dfr(names(labels), function(outcome) {
     row <- dplyr::filter(summary, .data$outcome == .env$outcome)
     district <- dplyr::filter(benchmarks, .data$outcome == .env$outcome, statistic == "equal_unit:district_sd")
     block <- dplyr::filter(benchmarks, .data$outcome == .env$outcome, statistic == "equal_unit:block_sd")
-    table <- c(table, sprintf(
-      "| %s | %s / %s (%.2f%%) | %.2f / %.2f | %.2f / %.2f |", labels[[outcome]],
-      format(row$mismatches, big.mark = ","), format(row$seats, big.mark = ","), 100 * row$mismatch_rate,
-      100 * district$observed, 100 * district$benchmark_mean, 100 * block$observed, 100 * block$benchmark_mean
-    ))
-  }
+    tibble::tibble(
+      assignment = labels[[outcome]],
+      disagreements = sprintf(
+        "%s / %s (%.2f%%)",
+        format(row$mismatches, big.mark = ","), format(row$seats, big.mark = ","), 100 * row$mismatch_rate
+      ),
+      district = sprintf("%.2f / %.2f", 100 * district$observed, 100 * district$benchmark_mean),
+      block = sprintf("%.2f / %.2f", 100 * block$observed, 100 * block$benchmark_mean)
+    )
+  }) |>
+    knitr::kable(
+      format = "pipe", row.names = FALSE,
+      col.names = c(
+        "Assignment", "Disagreements among all observed GPs",
+        "District spread: observed / benchmark (pp)", "Block spread: observed / benchmark (pp)"
+      ),
+      align = c("l", "r", "r", "r")
+    )
   lines <- readLines(file)
   start <- which(lines == "<!-- assignment_findings:start -->")
   end <- which(lines == "<!-- assignment_findings:end -->")
   if (length(start) != 1L || length(end) != 1L || start >= end) stop("Missing ordered assignment findings markers")
   writeLines(c(lines[seq_len(start)], "", table, "", lines[seq.int(end, length(lines))]), file)
+}
+
+write_assignment_report <- function(summary, benchmarks, file) {
+  labels <- c(
+    women_instrument = "Women: RD instrument", women_prediction = "Women: prediction sensitivity",
+    sc = "Scheduled Castes", st = "Scheduled Tribes"
+  )
+  disagreement_table <- summary |>
+    dplyr::transmute(
+      assignment = labels[outcome], seats, mismatches,
+      rate = sprintf("%.2f%%", 100 * mismatch_rate),
+      rate_either = sprintf("%.2f%%", 100 * mismatch_among_either)
+    ) |>
+    knitr::kable(
+      format = "pipe", row.names = FALSE, format.args = list(big.mark = ","),
+      col.names = c(
+        "Assignment", "Observed GPs", "Disagreements", "Rate among all GPs",
+        "Rate among observed/predicted reserved GPs"
+      ),
+      align = c("l", "r", "r", "r", "r")
+    )
+  spread_table <- benchmarks |>
+    dplyr::filter(statistic %in% c("equal_unit:district_sd", "equal_unit:block_sd")) |>
+    dplyr::transmute(
+      assignment = labels[outcome], geography = ifelse(grepl("district", statistic), "District", "Block"),
+      observed = 100 * observed, benchmark_mean = 100 * benchmark_mean,
+      interval = sprintf("%.2f to %.2f", 100 * benchmark_lower, 100 * benchmark_upper)
+    ) |>
+    knitr::kable(
+      format = "pipe", digits = 2, row.names = FALSE,
+      col.names = c("Assignment", "Geography", "Observed SD (pp)", "Benchmark SD (pp)", "95% benchmark range (pp)"),
+      align = c("l", "l", "r", "r", "r")
+    )
+  lines <- c(
+    "# UP 2015: disagreements with supplied assignment predictions", "",
+    "These statistics audit the authors' supplied predictions, not an independently reconstructed legal rule.", "",
+    disagreement_table, "", spread_table
+  )
+  lines <- c(
+    lines, "",
+    "The benchmark moves a fixed number of prediction disagreements among GPs within strata.",
+    paste("For women, strata are observed caste category and predicted female assignment;",
+      "for SC/ST they are predicted caste."
+    ),
+    "It describes concentration relative to exchangeable disagreements. It is not a test of lawful random allocation.",
+    "Departures can reflect author prediction error, data error, exceptions or administrative decisions.",
+    "The between-district share in the CSV decomposes observed block-rate variance, including finite-group noise.",
+    "It is not the noise-adjusted share of underlying heterogeneity. Benchmark intervals are not confidence intervals.",
+    "SC and ST are separate benchmarks, not jointly valid caste-allocation simulations.",
+    "All four outcomes use observed geography and assignment; missing records remain in the coverage table.",
+    paste("The separate caste build uses modern LGD/SHRUG aggregates;",
+      "it is not substituted for the authors' population inputs."
+    )
+  )
+  writeLines(lines, file)
 }

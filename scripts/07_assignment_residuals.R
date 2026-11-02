@@ -58,44 +58,7 @@ plot <- ggplot2::ggplot(plot_data, ggplot2::aes(x = level, y = 100 * observed)) 
     )
   )
 save_figure(plot, "assignment_residual_spread", figure_dir, figure_width, figure_height + 1, figure_dpi)
-lines <- c(
-  "# UP 2015: disagreements with supplied assignment predictions", "",
-  "These statistics audit the authors' supplied predictions, not an independently reconstructed legal rule.", "",
-  "| Assignment | Observed GPs | Disagreements | Rate among all GPs | Rate among observed/predicted reserved GPs |",
-  "|---|---:|---:|---:|---:|"
-)
-for (i in seq_len(nrow(summary))) {
-  row <- summary[i, ]
-  lines <- c(lines, sprintf(
-    "| %s | %s | %s | %.2f%% | %.2f%% |", labels[[row$outcome]],
-    format(row$seats, big.mark = ","), format(row$mismatches, big.mark = ","),
-    100 * row$mismatch_rate, 100 * row$mismatch_among_either
-  ))
-}
-lines <- c(
-  lines, "", "| Assignment | Geography | Observed SD (pp) | Benchmark SD (pp) | 95% benchmark range (pp) |",
-  "|---|---|---:|---:|---:|"
-)
-for (i in seq_len(nrow(plot_data))) {
-  row <- plot_data[i, ]
-  lines <- c(lines, sprintf(
-    "| %s | %s | %.2f | %.2f | %.2f to %.2f |", row$label, row$level,
-    100 * row$observed, 100 * row$benchmark_mean, 100 * row$benchmark_lower, 100 * row$benchmark_upper
-  ))
-}
-lines <- c(
-  lines, "",
-  "The benchmark moves a fixed number of prediction disagreements among GPs within strata.",
-  "For women, strata are observed caste category and predicted female assignment; for SC/ST they are predicted caste.",
-  "It describes concentration relative to exchangeable disagreements. It is not a test of lawful random allocation.",
-  "Departures can reflect author prediction error, data error, exceptions or administrative decisions.",
-  "The between-district share in the CSV decomposes observed block-rate variance, including finite-group noise.",
-  "It is not the noise-adjusted share of underlying heterogeneity. Benchmark intervals are not confidence intervals.",
-  "SC and ST are separate benchmarks, not jointly valid caste-allocation simulations.",
-  "All four outcomes use observed geography and assignment; missing records remain in the coverage table.",
-  "The separate caste build uses modern LGD/SHRUG aggregates; it is not substituted for the authors' population inputs."
-)
-writeLines(lines, file.path(table_dir, "assignment_residuals.md"))
+write_assignment_report(summary, benchmarks, file.path(table_dir, "assignment_residuals.md"))
 print(summary)
 print(plot_data |> dplyr::select(outcome, level, observed, benchmark_mean, benchmark_lower, benchmark_upper))
 

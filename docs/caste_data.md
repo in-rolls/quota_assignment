@@ -3,7 +3,9 @@
 Inputs are fixed by SHA-256 in `caste_source_lock.json`. `IN_ROLLS` locates the
 collection repositories; `SHRUG` locates version 2.0. Election masters use the
 existing `source_lock.json` and `LOCAL_ELECTIONS`. Source files are read only.
-Outputs remain local under `data/build/caste/`, `tabs/` and `figs/`.
+Upstream repository URLs and commits are recorded alongside the hashes. See
+[input setup](inputs.md) for public source links and checkout commands.
+Generated analysis outputs go under `data/build/caste/`, `tabs/` and `figs/`.
 
 ## Row definitions and fields
 
@@ -77,7 +79,9 @@ a narrowly named top-share scorer, and a warning that pair counts are dependent.
 Those points are incorporated. Full simulation coverage validation of a residual
 hierarchical model remains future work.
 
-The shared Weaver microdata and generated linked records are not published by
-this build. Public release of derived SHRUG data must account for its
-CC BY-NC-SA terms and source-sharing requirements; the repository's code license
-does not relicense its inputs.
+The Weaver source files and shared wide panels are published in
+[local_elections_up](https://github.com/in-rolls/local_elections_up/tree/main/data/reference/weaver).
+This build reads that upstream repository and keeps analysis-specific linked
+records under `data/build/`. SHRUG inputs retain their CC BY-NC-SA terms and
+source-sharing requirements; the repository's code license does not relicense
+its inputs.

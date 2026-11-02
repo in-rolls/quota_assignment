@@ -15,11 +15,11 @@ supplied predictions. It uses 57,555 GPs with observed assignments and geography
 
 <!-- assignment_findings:start -->
 
-| Assignment | Disagreements among all observed GPs | District spread: observed / benchmark (pp) | Block spread: observed / benchmark (pp) |
-|---|---:|---:|---:|
-| Women | 1,214 / 57,555 (2.11%) | 2.35 / 0.59 | 3.07 / 1.81 |
-| SC | 273 / 57,555 (0.47%) | 0.77 / 0.28 | 2.07 / 0.86 |
-| ST | 18 / 57,555 (0.03%) | 0.11 / 0.08 | 0.25 / 0.23 |
+|Assignment | Disagreements among all observed GPs| District spread: observed / benchmark (pp)| Block spread: observed / benchmark (pp)|
+|:----------|------------------------------------:|------------------------------------------:|---------------------------------------:|
+|Women      |               1,214 / 57,555 (2.11%)|                                2.35 / 0.59|                             3.07 / 1.81|
+|SC         |                 273 / 57,555 (0.47%)|                                0.77 / 0.28|                             2.07 / 0.86|
+|ST         |                  18 / 57,555 (0.03%)|                                0.11 / 0.08|                             0.25 / 0.23|
 
 <!-- assignment_findings:end -->
 
@@ -38,12 +38,12 @@ variation; all values are in percentage points.
 
 <!-- findings:start -->
 
-| State | Transition | Variation across | Observed spread | Benchmark mean | 95% simulated range |
-|---|---|---|---:|---:|---:|
-| Rajasthan | 2015 to 2020 | districts | 30.1 | 7.5 | 5.3 to 10.0 |
-| Rajasthan | 2015 to 2020 | blocks | 40.0 | 20.6 | 18.5 to 22.8 |
-| Uttar Pradesh | 2015 to 2021 | districts | 5.5 | 3.9 | 3.1 to 4.9 |
-| Uttar Pradesh | 2015 to 2021 | blocks | 11.7 | 11.4 | 10.7 to 12.1 |
+|State         |Transition   |Variation across | Observed spread| Benchmark mean| 95% simulated range|
+|:-------------|:------------|:----------------|---------------:|--------------:|-------------------:|
+|Rajasthan     |2015 to 2020 |districts        |            30.1|            7.5|         5.3 to 10.0|
+|Rajasthan     |2015 to 2020 |blocks           |            40.0|           20.6|        18.5 to 22.8|
+|Uttar Pradesh |2015 to 2021 |districts        |             5.5|            3.9|          3.1 to 4.9|
+|Uttar Pradesh |2015 to 2021 |blocks           |            11.7|           11.4|        10.7 to 12.1|
 
 <!-- findings:end -->
 
@@ -91,18 +91,18 @@ with rotation.
 
 Census 2011 population on the 2024 GP mapping:
 
-| State | GPs in catalog | Population passes checks | Share of catalog |
-|---|---:|---:|---:|
-| Rajasthan | 11,207 | 7,773 | 69.4% |
-| Uttar Pradesh | 57,691 | 50,172 | 87.0% |
+|State         | GPs in catalog| Population passes checks| Share of catalog|
+|:-------------|--------------:|------------------------:|----------------:|
+|Rajasthan     |         11,207|                    7,773|            69.4%|
+|Uttar Pradesh |         57,691|                   50,172|            87.0%|
 
 Latest source wave linked to those population aggregates:
 
-| State | Election source | Source year | Linked records | Source records |
-|---|---|---|---:|---:|
-| Rajasthan | master | 2020 | 2,448 | 11,304 |
-| Uttar Pradesh | master | 2021 | 7,636 | 49,772 |
-| Uttar Pradesh | weaver | 2020 (unverified) | 42,286 | 59,004 |
+|State         |Election source |Source year       | Linked records| Source records|
+|:-------------|:---------------|:-----------------|--------------:|--------------:|
+|Rajasthan     |master          |2020              |          2,448|         11,304|
+|Uttar Pradesh |master          |2021              |          7,636|         49,772|
+|Uttar Pradesh |weaver          |2020 (unverified) |         42,286|         59,004|
 
 Name matching selects a small subset, especially in Rajasthan. Weaver's supplied LGD codes
 give broader UP coverage. These are linkage results, not estimates of rule compliance.
@@ -114,13 +114,19 @@ and `SHRUG` if those source directories are elsewhere. The build retains the
 full modern GP catalog, audits incomplete village mappings, sums population
 counts before computing shares, and keeps SC and ST separate. Weaver's March 17
 vintage is a separate source sensitivity; its source-labeled 2020 wave is retained
-as unverified rather than silently renamed 2021. Generated linked data stay local.
+as unverified rather than silently renamed 2021. Both Weaver vintages and their
+prepared panels are published upstream in
+[local_elections_up](https://github.com/in-rolls/local_elections_up/tree/main/data/reference/weaver).
+This repository reads the pinned March 17 panel from that checkout.
 See the [analysis design](docs/caste_design.md), [join contract](docs/caste_data.md)
 and local report `tabs/caste_summary.md`.
 
 ## Reproduce
 
-Use R 4.6 and a C++ toolchain for Stan.
+Use R 4.6 and a C++ toolchain for Stan. Follow the [input setup](docs/inputs.md)
+to obtain the pinned upstream repositories and SHRUG files. Data collection and
+shared preparation belong in those upstream repositories; this repository owns
+the assignment analysis.
 
 ```sh
 make restore
@@ -153,6 +159,10 @@ Settings, paths, seeds, figure dimensions and the shared ggplot theme live in
 1,000 retained draws per chain. Run sensitivities with `RESERVATION_MODEL=prior_narrow make models`,
 `prior_wide`, `composition`, or `complete_history`. Fits and model tables use
 separate names for each specification; primary outputs are preserved.
+
+Results tables use `knitr::kable()` and figures use `ggplot2`. Run `make tables`
+to regenerate reports and README result tables from saved analysis CSVs. This
+rerenders available results without rerunning the estimates or simulations.
 
 ## Organization
 
