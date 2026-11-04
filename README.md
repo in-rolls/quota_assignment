@@ -196,7 +196,7 @@ are not expected to match across PyMC and Stan. See [migration notes](docs/migra
 ## Research note
 
 The LaTeX manuscript is in [paper/main.tex](paper/main.tex), with a source-verified
-[bibliography](paper/references.bib) and an assignment/legal evidence appendix.
+[bibliography](paper/references.bib) and generated assignment-claim and legal-provision tables.
 Run `make analysis`, `make assignment`, and `make caste` to rebuild analysis
 outputs from the pinned upstream inputs, then `make paper` to audit the numbers,
 generate LaTeX tables, macros and figures, and compile `paper/main.pdf`.
@@ -207,3 +207,23 @@ The note describes geographic patterns and prediction disagreements. It does not
 estimate the causal contribution of bureaucratic discretion or certify historical
 rule compliance. Small-cell and linkage sensitivity, including the loss of most
 Rajasthan blocks under minimum-denominator restrictions, are part of its findings.
+
+## Assignment claims
+
+`make claims` builds the source-by-source LaTeX claim catalog at
+`paper/claims_catalog.pdf`. Its records distinguish asserted lotteries, ranking,
+rotation, legal prescriptions, identifying assumptions and implementation checks.
+The [machine-readable inventory](data/reference/assignment_claims/) retains source
+versions, hashes, exact locations, short verified quotations, scope, qualifications,
+and the data needed to test each assertion. The note's main comparison table and
+legal appendix are generated from this inventory. The catalog includes screening
+dispositions for every PDF in the upstream literature corpus.
+
+The inventory covers all 48 PDFs and all 23 study entries in `quota_spending/lit`,
+plus the note's external and official sources. It exposes differences in what was
+actually checked: reconstructing one district's list, finding average balance,
+and predicting nearly all assignments are different claims. The tables retain
+qualifications, including papers that already report assignment errors.
+See the generated [coverage and next-test report](docs/assignment_claims.md).
+Historical UP rules and one damaged order remain unverified; source access and
+version limitations are recorded rather than silently filled in.
