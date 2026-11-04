@@ -32,11 +32,14 @@ tables:
 .PHONY: audit paper
 audit:
 	Rscript scripts/audit_note.R
-paper: tables audit claims
+paper: tables audit si
 	Rscript scripts/08_paper_exhibits.R
 	cd paper && latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 
 .PHONY: claims
 claims:
 	Rscript scripts/09_claims.R
-	cd paper && latexmk -pdf -interaction=nonstopmode -halt-on-error claims_catalog.tex
+
+.PHONY: si
+si: claims
+	cd paper && latexmk -pdf -interaction=nonstopmode -halt-on-error si.tex

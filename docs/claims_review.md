@@ -1,6 +1,6 @@
 # Assignment-claim review
 
-Reviewed on 3 November 2026. The inventory contains 130 claim records from 64
+Reviewed on 3 November 2026. The note's supporting information contains 130 claim records from 64
 source versions, including dispositions for all 48 upstream literature PDFs and
 all 23 study entries. Thirty-nine records contain short verified excerpts; the
 other records paraphrase located passages or document inaccessible sources.
