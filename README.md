@@ -210,6 +210,11 @@ Rajasthan blocks under minimum-denominator restrictions, are part of its finding
 
 ## Literature evidence audit
 
+Run `make view-literature` to open the schema and populated records in a searchable
+HTML viewer. You can also open other JSON files with
+`Rscript scripts/view_json.R path/to/file.json`, or open
+[the standalone viewer](tools/json_viewer.html) and choose a file.
+
 Run `make literature` to build the study-level evidence dataset. The pipeline links
 source versions and supplements, records positive diagnostics, distinguishes unknown
 from reviewed absence, and generates scoped candidates for disagreements about

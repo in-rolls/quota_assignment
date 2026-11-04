@@ -43,3 +43,7 @@ claims:
 .PHONY: literature
 literature:
 	Rscript scripts/10_literature_audit.R
+
+.PHONY: view-literature
+view-literature: literature
+	Rscript scripts/view_json.R data/reference/literature_audit/schema.json data/build/literature_audit/filled_data.json

@@ -67,6 +67,9 @@ comparison_evidence <- dplyr::bind_rows(
   )
 output <- project_file("data", "build", "literature_audit")
 dir.create(output, recursive = TRUE, showWarnings = FALSE)
+jsonlite::write_json(input, file.path(output, "filled_data.json"),
+  pretty = TRUE, auto_unbox = TRUE, dataframe = "rows", na = "null", null = "null", digits = NA
+)
 products <- list(
   studies = studies, claims = claims, claim_support = input$claim_support, diagnostics = evidence, accounts = accounts,
   comparisons = pairs, diagnostic_targets = capabilities, study_targets = targets,

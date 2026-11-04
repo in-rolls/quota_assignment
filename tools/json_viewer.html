@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JSON viewer</title>
+<style>
+:root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #202833; background: #f5f7fa; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+header { padding: 24px 32px 18px; background: white; border-bottom: 1px solid #dce2e9; }
+h1 { font-size: 23px; margin: 0 0 16px; letter-spacing: -.4px; }
+.toolbar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+button, select, input { font: inherit; font-size: 14px; border: 1px solid #cbd4df; border-radius: 6px; background: white; padding: 9px 12px; color: inherit; }
+button { cursor: pointer; }
+button:hover { background: #edf3fb; }
+button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 3px solid #73a5e4; outline-offset: 2px; }
+#documents { max-width: 420px; }
+#search { flex: 1; min-width: 220px; }
+#open-files { background: #245b97; color: white; border-color: #245b97; }
+#status { margin-top: 12px; font-size: 13px; color: #5e6c7d; }
+#error { color: #9f2525; padding: 12px 0 0; white-space: pre-wrap; }
+.layout { display: grid; grid-template-columns: 230px minmax(0, 1fr); max-width: 1450px; margin: 0 auto; min-height: 75vh; }
+nav { padding: 24px 16px; border-right: 1px solid #dce2e9; }
+nav button { display: flex; justify-content: space-between; align-items: center; gap: 8px; width: 100%; text-align: left; border: 0; background: transparent; margin-bottom: 5px; overflow-wrap: anywhere; }
+nav button[aria-pressed="true"] { background: #e4edf9; color: #154f90; font-weight: 600; }
+.badge { color: #677485; font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: normal; white-space: nowrap; }
+main { padding: 26px 32px 50px; min-width: 0; }
+.heading { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 18px; }
+h2 { margin: 0; font-size: 20px; overflow-wrap: anywhere; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.actions button { font-size: 12px; padding: 6px 10px; }
+.schema-wrap, .record { background: white; border: 1px solid #dce2e9; border-radius: 8px; overflow: hidden; margin: 0 0 12px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; text-align: left; }
+th { color: #4e6075; background: #f0f4f8; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; }
+th, td { padding: 12px 16px; vertical-align: top; border-bottom: 1px solid #e7ecf1; line-height: 1.5; overflow-wrap: anywhere; }
+tr:last-child td { border-bottom: 0; }
+.field { font: 13px ui-monospace, SFMono-Regular, Menlo, monospace; min-width: 180px; }
+.type { font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; color: #245b97; }
+summary { cursor: pointer; padding: 13px 16px; line-height: 1.5; overflow-wrap: anywhere; }
+summary:hover { background: #f6f9fc; }
+summary .badge { margin-left: 10px; }
+details[open] > summary { border-bottom: 1px solid #e7ecf1; }
+.properties { padding: 4px 16px 10px; }
+.property { display: grid; grid-template-columns: minmax(130px, 25%) minmax(0, 1fr); gap: 16px; padding: 9px 0; border-bottom: 1px solid #edf0f4; font-size: 14px; line-height: 1.5; }
+.property:last-child { border-bottom: 0; }
+.key { color: #56677b; font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; padding-top: 3px; }
+.value { white-space: pre-wrap; overflow-wrap: anywhere; }
+.value.null { color: #8793a2; font-style: italic; }
+.nested { margin: 4px 0; }
+pre { background: white; border: 1px solid #dce2e9; border-radius: 8px; padding: 20px; font-size: 13px; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+.empty { padding: 28px; border: 1px dashed #bec9d6; border-radius: 8px; color: #5e6c7d; line-height: 1.6; }
+body.dragging { outline: 4px solid #73a5e4; outline-offset: -4px; }
+@media (max-width: 760px) { header { padding: 20px; } .layout { grid-template-columns: 1fr; } nav { border-right: 0; border-bottom: 1px solid #dce2e9; display: flex; gap: 6px; overflow-x: auto; padding: 12px; } nav button { width: auto; flex-shrink: 0; } main { padding: 20px; } .property { grid-template-columns: 1fr; gap: 3px; } .field { min-width: 0; } .schema-wrap { overflow-x: auto; } .heading { align-items: flex-start; flex-direction: column; } }
+</style>
+</head>
+<body>
+<header>
+<h1>JSON viewer</h1>
+<div class="toolbar">
+<button id="open-files" type="button">Open JSON…</button>
+<input id="file-input" type="file" accept=".json,application/json" multiple hidden>
+<select id="documents" aria-label="Document"></select>
+<input id="search" type="search" aria-label="Search this document" placeholder="Search fields, descriptions or records…">
+</div>
+<div id="status" role="status"></div>
+<div id="error" role="alert" hidden></div>
+</header>
+<div class="layout">
+<nav id="sections" aria-label="JSON sections"></nav>
+<main>
+<div class="heading"><h2 id="section-title">Open a JSON file</h2>
+<div class="actions">
+<button id="expand" type="button">Expand all</button>
+<button id="collapse" type="button">Collapse all</button>
+<button id="raw" type="button" aria-pressed="false">Raw JSON</button>
+</div></div>
+<div id="content"><div class="empty">Open a JSON file or drop it here.</div></div>
+</main>
+</div>
+<script id="initial-data" type="application/octet-stream"></script>
+<script>
+"use strict";
+const documents = [];
+let documentIndex = 0;
+let sectionKey = "";
+let rawMode = false;
+const $ = id => document.getElementById(id);
+const object = value => value !== null && typeof value === "object" && !Array.isArray(value);
+const entries = value => object(value) ? Object.entries(value) : [["Records", value]];
+const schemaTable = value => object(value) && Object.keys(value).length > 0 && Object.values(value).every(field => object(field) && typeof field.type === "string" && typeof field.description === "string");
+const count = value => Array.isArray(value) ? `${value.length} records` : object(value) ? `${Object.keys(value).length} fields` : typeof value;
+function element(tag, text, className) {
+  const node = document.createElement(tag);
+  if (text !== undefined) node.textContent = text;
+  if (className) node.className = className;
+  return node;
+}
+function showError(message) { $("error").textContent = message; $("error").hidden = !message; }
+function addDocument(name, text) {
+  const data = JSON.parse(text);
+  documents.push({ name, data });
+  const option = element("option", name);
+  option.value = String(documents.length - 1);
+  $("documents").append(option);
+}
+function chooseDocument(index) {
+  documentIndex = index;
+  $("documents").value = String(index);
+  sectionKey = entries(documents[index].data)[0]?.[0] ?? "";
+  $("search").value = "";
+  render();
+}
+function matches(key, value, query) { return !query || `${key} ${JSON.stringify(value)}`.toLowerCase().includes(query); }
+function scalar(value) {
+  return element("div", value === null ? "null" : typeof value === "string" ? value : String(value), value === null ? "value null" : "value");
+}
+function record(label, value, open = false) {
+  if (value === null || typeof value !== "object") {
+    const row = element("div", undefined, "property");
+    row.append(element("div", label, "key"), scalar(value));
+    return row;
+  }
+  const details = element("details", undefined, "record");
+  details.open = open;
+  const summary = element("summary", label);
+  summary.append(element("span", count(value), "badge"));
+  const properties = element("div", undefined, "properties");
+  const fields = Array.isArray(value) ? value.map((item, index) => [String(index), item]) : Object.entries(value);
+  for (const [key, child] of fields) {
+    const row = element("div", undefined, "property");
+    row.append(element("div", key, "key"));
+    if (child !== null && typeof child === "object") {
+      const nested = record(Array.isArray(child) ? "Array" : "Object", child);
+      nested.classList.add("nested");
+      row.append(nested);
+    } else row.append(scalar(child));
+    properties.append(row);
+  }
+  details.append(summary, properties);
+  return details;
+}
+function renderSchema(value, query) {
+  const wrapper = element("div", undefined, "schema-wrap");
+  const table = element("table");
+  const header = element("tr");
+  for (const name of ["Field", "Type", "Description"]) header.append(element("th", name));
+  const head = element("thead"); head.append(header); table.append(head);
+  const body = element("tbody");
+  for (const [key, field] of Object.entries(value)) {
+    if (!matches(key, field, query)) continue;
+    const row = element("tr");
+    const description = element("td", field.description);
+    const extra = Object.fromEntries(Object.entries(field).filter(([name]) => !["type", "description"].includes(name)));
+    if (Object.keys(extra).length) description.append(record("Constraints", extra));
+    row.append(element("td", key, "field"), element("td", field.type, "type"), description);
+    body.append(row);
+  }
+  table.append(body); wrapper.append(table); return wrapper;
+}
+function renderValue(key, value, query) {
+  if (schemaTable(value)) return renderSchema(value, query);
+  if (Array.isArray(value)) {
+    const fragment = document.createDocumentFragment();
+    let shown = 0;
+    value.forEach((item, index) => {
+      if (!matches(String(index), item, query)) return;
+      let label = `[${index}]`;
+      if (object(item)) {
+        const name = item.title || item.result_label || item.diagnostic_id || item.account_id || item.claim_id || item.study_id || item.source_id;
+        if (name) label += ` ${String(name).slice(0, 150)}`;
+      }
+      fragment.append(record(label, item, shown === 0)); shown++;
+    });
+    if (!shown) fragment.append(element("div", "No matching records.", "empty"));
+    return fragment;
+  }
+  return record(key, value, true);
+}
+function render() {
+  if (!documents.length) return;
+  const doc = documents[documentIndex];
+  const sections = entries(doc.data);
+  const query = $("search").value.trim().toLowerCase();
+  $("sections").replaceChildren();
+  for (const [key, value] of sections) {
+    const button = element("button", key);
+    button.type = "button";
+    button.setAttribute("aria-pressed", String(sectionKey === key));
+    button.append(element("span", Array.isArray(value) ? value.length : object(value) ? Object.keys(value).length : "", "badge"));
+    button.addEventListener("click", () => { sectionKey = key; $("search").value = ""; render(); });
+    $("sections").append(button);
+  }
+  const selected = sections.find(([key]) => key === sectionKey);
+  const visible = query ? sections.filter(([key, value]) => matches(key, value, query)) : selected ? [selected] : [];
+  $("section-title").textContent = query ? `Search results for “${$("search").value.trim()}”` : sectionKey || "Empty object";
+  $("status").textContent = `${doc.name} · ${sections.length} sections${query ? ` · ${visible.length} matching sections` : selected ? ` · ${count(selected[1])}` : ""}`;
+  $("content").replaceChildren();
+  $("raw").setAttribute("aria-pressed", String(rawMode));
+  if (!visible.length) $("content").append(element("div", query ? "No matches in this document." : "No records.", "empty"));
+  for (const [key, value] of visible) {
+    if (query) $("content").append(element("h3", key));
+    const fieldQuery = key.toLowerCase().includes(query) ? "" : query;
+    $("content").append(rawMode ? element("pre", JSON.stringify(value, null, 2)) : renderValue(key, value, fieldQuery));
+  }
+}
+async function openFiles(files) {
+  showError("");
+  let latest = null;
+  for (const file of files) {
+    try { addDocument(file.name, await file.text()); latest = documents.length - 1; }
+    catch (error) { showError(`Could not read ${file.name}: ${error.message}`); }
+  }
+  if (latest !== null) chooseDocument(latest);
+}
+$("open-files").addEventListener("click", () => $("file-input").click());
+$("file-input").addEventListener("change", event => { openFiles(Array.from(event.target.files)); event.target.value = ""; });
+$("documents").addEventListener("change", event => chooseDocument(Number(event.target.value)));
+$("search").addEventListener("input", render);
+$("expand").addEventListener("click", () => $("content").querySelectorAll("details").forEach(node => { node.open = true; }));
+$("collapse").addEventListener("click", () => $("content").querySelectorAll("details").forEach(node => { node.open = false; }));
+$("raw").addEventListener("click", () => { rawMode = !rawMode; render(); });
+window.addEventListener("dragover", event => { event.preventDefault(); document.body.classList.add("dragging"); });
+window.addEventListener("dragleave", event => { if (!event.relatedTarget) document.body.classList.remove("dragging"); });
+window.addEventListener("drop", event => { event.preventDefault(); document.body.classList.remove("dragging"); openFiles(Array.from(event.dataTransfer.files)); });
+try {
+  const encoded = $("initial-data").textContent.trim();
+  if (encoded) {
+    const bytes = Uint8Array.from(atob(encoded), character => character.charCodeAt(0));
+    const initial = JSON.parse(new TextDecoder().decode(bytes));
+    for (const item of initial) addDocument(item.name, item.text);
+    if (documents.length) chooseDocument(0);
+  }
+} catch (error) { showError(`Could not load initial data: ${error.message}`); }
+</script>
+</body>
+</html>
