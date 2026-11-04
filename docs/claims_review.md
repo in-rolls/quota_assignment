@@ -52,3 +52,11 @@ Internal identifiers, extraction notes and repository details remain in the
 machine-readable audit. Printed and PDF page numbers appear with excerpts;
 links distinguish direct PDFs from article or source pages. The J-PAL copy of
 Chattopadhyay–Duflo was checked against its published pagination (1414, PDF 6).
+
+The final presentation consolidates the literature comparison and quotation
+appendix into one main-text table with ten study/version entries. Selection
+covers distinct assignment mechanisms, reconstruction evidence, documented
+discrepancies and qualifications. The official-provision table remains in the
+appendix, and the full extraction inventory remains in the repository.
+The Das–Mukhopadhyay–Saroy lottery setting is Rajasthan, 2010; this corrects an
+incorrect Uttar Pradesh display label in the earlier comparison table.

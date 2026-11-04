@@ -106,19 +106,13 @@ resolve_tokens <- function(output) {
   }
   output
 }
-render_table <- function(data, file, widths) {
+render_table <- function(data, file, widths, caption = NULL, label = NULL) {
   output <- knitr::kable(data,
     format = "latex", booktabs = TRUE, longtable = TRUE,
-    row.names = FALSE, align = paste0("p{", widths, "cm}")
+    row.names = FALSE, align = paste0("p{", widths, "cm}"), caption = caption, label = label
   )
   output <- kableExtra::kable_styling(output, latex_options = "repeat_header")
   writeLines(resolve_tokens(output), file.path(build, file))
-}
-source_label <- function(key, version, locator, link) {
-  paste0(
-    citation_token(key), ifelse(nzchar(version), paste0("; ", version), ""),
-    ", ", locator, ifelse(nzchar(link), paste0("; ", link), "")
-  )
 }
 # The paper shows substantive descriptions; the full provenance remains in the inventory.
 joined$paper_qualification <- joined$qualification
@@ -127,35 +121,93 @@ joined$paper_qualification[joined$claim_id == "a_038"] <- paste(
   "the historical population inputs, eligible pools, rounding rules and boundary definitions."
 )
 joined$paper_qualification <- gsub(
-  "source-to-panel identity", "district identity", joined$paper_qualification, fixed = TRUE
+  "source-to-panel identity", "district identity", joined$paper_qualification,
+  fixed = TRUE
 )
 main_ids <- c(
-  "a_029", "e_chauchard_rank", "e_dunning_rank", "a_022", "e_das_sc_st_rank",
-  "e_das_obc_lottery", "a_037", "a_038", "b_010", "b_041", "e_sood_no_repeat"
+  "a_028", "a_029", "e_chauchard_rank", "e_dunning_rank", "e_das_obc_lottery",
+  "e_beaman_systematic", "e_beaman_repeat", "a_021", "e_sood_no_repeat", "e_sood_qualification",
+  "a_038", "b_010", "b_027"
 )
 stopifnot(all(main_ids %in% joined$claim_id))
-main_settings <- c(
-  a_029 = "Rajasthan, 1995 and 2000; women",
-  e_chauchard_rank = "Rajasthan, 2005; SC",
-  e_dunning_rank = "Rajasthan, 1995–2010, and Bihar; SC",
-  a_022 = "Uttar Pradesh, 2005–2010; women",
-  e_das_sc_st_rank = "Uttar Pradesh, 2010; SC/ST",
-  e_das_obc_lottery = "Uttar Pradesh, 2010; OBC",
-  a_037 = "Uttar Pradesh, 2015; women",
-  a_038 = "Uttar Pradesh, 2015; women",
-  b_010 = "Tamil Nadu, 1996–2006; women and SC",
-  b_041 = "Rajasthan and Uttar Pradesh, 2005 onward; women",
-  e_sood_no_repeat = "Rajasthan and Uttar Pradesh; women"
-)
-main <- joined |>
+selected <- joined |>
   dplyr::filter(claim_id %in% main_ids) |>
-  dplyr::arrange(match(claim_id, main_ids)) |>
-  dplyr::transmute(
-    Study = source_label(bib_key, paper_version, locator, source_link),
-    Setting = unname(main_settings[claim_id]),
-    `Claim and qualification` = paste(paraphrase, paper_qualification)
+  dplyr::arrange(match(claim_id, main_ids))
+stopifnot(all(nzchar(selected$quote)), all(nzchar(selected$locator)))
+main_settings <- c(
+  chattopadhyay_duflo_2004_ecta = "West Bengal and Rajasthan; women",
+  e_chauchard2014 = "Rajasthan, 2005; SC",
+  e_dunning2013 = "Rajasthan, 1995–2010, and Bihar; SC",
+  e_das2023 = "Rajasthan, 2010; OBC",
+  e_beaman2009 = "West Bengal, 1998 and 2003; women",
+  bose_das_2018_rde = "Uttar Pradesh, 2005 and 2010; women",
+  e_soodquota = "Rajasthan and Uttar Pradesh; women",
+  chaturvedi_das_mahajan_2025_edcc = "Uttar Pradesh, 2015; women",
+  gajwani_zhang_2008_ifpri_dp807 = "Tamil Nadu, 1996–2006; women and SC",
+  nilekani_2010_yale_senior_essay = "Karnataka, through 2009; general-category women"
+)
+main_context <- c(
+  chattopadhyay_duflo_2004_ecta = paste(
+    "The first passage concerns reconstruction of the West Bengal list; the second concerns missing inputs",
+    "for Rajasthan. Successful reconstruction in one state does not verify implementation in the other."
+  ),
+  e_chauchard2014 = paste(
+    "SC reservation follows a rotating population-share ranking. The study covers 64 GPs in 16 Samitis",
+    "across four districts; it does not audit implementation statewide."
+  ),
+  e_dunning2013 = paste(
+    "The inspected 2012 manuscript describes population totals, whereas Chauchard describes shares.",
+    "The applicable input must be established for the election being studied."
+  ),
+  e_das2023 = paste(
+    "The lottery operates among GPs remaining after SC/ST allocation. Its eligible pool differs from",
+    "all GPs; the random-assignment argument is conditional on that prior allocation."
+  ),
+  e_beaman2009 = paste(
+    "The authors report exact reconstruction of the 2003 list. Their rule also permits consecutive",
+    "women's reservation when caste-specific lists change. Repetition alone need not violate rotation."
+  ),
+  bose_das_2018_rde = paste(
+    "Changes between unreserved and caste-reserved lists can produce consecutive women's reservations",
+    "under the described serial-number procedure. A categorical no-repeat test would miss this qualification."
+  ),
+  e_soodquota = paste(
+    "The manuscript states a no-repeat premise but also cautions against treating district-level",
+    "nonrejection as proof of random assignment. Neither statement independently establishes the legal procedure."
+  ),
+  chaturvedi_das_mahajan_2025_edcc = paste(
+    "The authors report predicting female reservation in almost 98% of GPs. High overall agreement leaves",
+    "the location and concentration of disagreements open; prediction errors need not be administrative departures."
+  ),
+  gajwani_zhang_2008_ifpri_dp807 = paste(
+    "Reported block-average errors are 27.3% for women and 39.1% for SC reservation. The denominator is",
+    "reserved GPs failing a rank threshold, rather than all GPs."
+  ),
+  nilekani_2010_yale_senior_essay = paste(
+    "Discrepant allocation lists are excluded from the analysis. Results for the retained RD sample",
+    "cannot establish the extent or consequences of excluded deviations; lobbying is considered but not established."
   )
-render_table(main, "claims_comparison.tex", c(3.3, 3.7, 7.7))
+)
+stopifnot(all(selected$source_id %in% names(main_settings)), all(selected$source_id %in% names(main_context)))
+main <- selected |>
+  dplyr::group_by(source_id) |>
+  dplyr::summarise(
+    order = min(match(claim_id, main_ids)),
+    Study = paste(
+      citation_token(dplyr::first(bib_key)), dplyr::first(paper_version),
+      main_settings[dplyr::first(source_id)],
+      sep = ". "
+    ),
+    Passage = paste(paste0("“", quote, "” (", locator, "). ", source_link), collapse = " "),
+    Context = unname(main_context[dplyr::first(source_id)]),
+    .groups = "drop"
+  ) |>
+  dplyr::arrange(order) |>
+  dplyr::mutate(Study = gsub(". . ", ". ", Study, fixed = TRUE)) |>
+  dplyr::select(`Study and setting` = Study, `Quoted passage` = Passage, `Evidence and qualification` = Context)
+render_table(main, "claims_comparison.tex", c(3.4, 4.9, 6.4),
+  caption = "Claims about reservation assignment", label = "assignment_claims"
+)
 legal <- joined |>
   dplyr::filter(grepl("legal|prescri|constitutional", claim_kind, ignore.case = TRUE)) |>
   dplyr::transmute(
@@ -164,25 +216,7 @@ legal <- joined |>
     `Applicability and qualifications` = paper_qualification
   )
 render_table(legal, "legal_comparison.tex", c(3.8, 5.4, 5.5))
-quoted <- joined |>
-  dplyr::filter(nzchar(quote), !grepl("legal|prescri|constitutional", claim_kind, ignore.case = TRUE)) |>
-  dplyr::filter(claim_id != "a_025") |>
-  dplyr::arrange(bib_key, source_id) |>
-  dplyr::group_by(source_id) |>
-  dplyr::summarise(
-    Study = paste(
-      citation_token(dplyr::first(bib_key)), dplyr::first(paper_version),
-      paste(unique(state), collapse = "; "),
-      sep = ". "
-    ),
-    Passage = paste(paste0("“", quote, "” (", locator, "). ", source_link), collapse = " "),
-    Context = paste(unique(paste(paraphrase, paper_qualification)), collapse = " "),
-    .groups = "drop"
-  ) |>
-  dplyr::mutate(Study = gsub(". . ", ". ", Study, fixed = TRUE)) |>
-  dplyr::select(Study, `Quoted passage` = Passage, `Interpretation and limitations` = Context)
-render_table(quoted, "claims_quotations.tex", c(3, 4.7, 7))
-cat(nrow(sources), "sources screened;", nrow(claims), "claims retained;", nrow(quoted), "quotation rows rendered\n")
+cat(nrow(sources), "sources screened;", nrow(claims), "claims retained;", nrow(main), "main-table entries rendered\n")
 priority <- joined |>
   dplyr::filter(readiness == "testable_with_current_data") |>
   dplyr::transmute(
@@ -194,10 +228,11 @@ writeLines(c(
   paste(nrow(sources), "source versions screened;", nrow(claims), "distinct claim records."), "",
   "The source of truth is data/reference/assignment_claims/*.json. PDFs remain in the upstream collections.",
   "Run make claims to validate corpus coverage, source hashes, keys and claim fields; make paper compiles it.",
-  "The note's comparison, official-provision table and quotation appendix share these records.", "",
-  paste(nrow(quoted), "study/version entries appear in the compact quotation appendix."),
+  "The main quotation table and official-provision appendix share these records.", "",
+  paste(nrow(main), "study/version entries appear in the main quotation table."),
   "Official quotations appear in the legal-provision table. The full audit remains here, outside the paper.",
-  "The quotation table groups passages by source version and omits the short fragment 'political reservations'.",
+  "Selection covers lottery, ranking, rotation, reconstruction and documented discrepancies, with qualifications.",
+  "The full extraction inventory remains available here; there is no overlapping literature table in the appendix.",
   "Printed page numbers and PDF page numbers are distinguished; direct document links include PDF page anchors.", "",
   "Readiness is a proposed comparison, not a finding that the claim is wrong. State, period, office and category",
   "must match; absent historical rosters or rules remain explicit requirements.", "",

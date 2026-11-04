@@ -210,9 +210,9 @@ Rajasthan blocks under minimum-denominator restrictions, are part of its finding
 
 ## Assignment claims
 
-`make paper` includes a compact quotation appendix in `paper/main.pdf`,
-using [paper/assignment_appendix.tex](paper/assignment_appendix.tex). The records
-distinguish asserted lotteries, ranking,
+`make paper` includes one focused quotation table in the main text of
+`paper/main.pdf`, plus a separate appendix table of official legal provisions.
+The records distinguish asserted lotteries, ranking,
 rotation, legal prescriptions, identifying assumptions and implementation checks.
 The [machine-readable inventory](data/reference/assignment_claims/) retains source
 versions, hashes, exact locations, short verified quotations, scope, qualifications,
