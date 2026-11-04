@@ -153,6 +153,17 @@
       "url": "https://gsood.com/research/papers/daughters.pdf",
       "screening_status": "no_assignment_claim",
       "screening_note": "Screened author paper concerns US legislators and daughters; no Indian seat-assignment claim. Relevant as a reassessment precedent only."
+    },
+    {
+      "source_id": "e_chauchard2014_supp",
+      "bib_key": "chauchard2014",
+      "title": "Can Descriptive Representation Change Beliefs about a Stigmatized Group? Online Appendix B",
+      "version": "Online Appendix, 2014",
+      "path": "",
+      "sha256": "96c942d86df753544e3d7c6ea961c348e3124c8fa094e1e9682ddcfd0c9382c8",
+      "url": "https://static.cambridge.org/content/id/urn%3Acambridge.org%3Aid%3Aarticle%3AS0003055414000033/resource/name/S0003055414000033sup001.pdf",
+      "screening_status": "claims_found",
+      "screening_note": "Appendix B, pp. 5–11, checked against publisher PDF; Table B.2 visually verified. Appendix table names Jalore whereas main-text footnote 19 names Barmer; district labels have not been reconciled."
     }
   ],
   "claims": [
@@ -239,7 +250,7 @@
       "pool": "Panchayat Samiti / Zila Parishad as specified",
       "procedure": "Authorized officer determines reserved numbers; Rule 9(2) refers SC/ST/backward-class allocation to Rule 7.",
       "claim_kind": "legal_prescription",
-      "paraphrase": "Administrative responsibility and prescribed allocation coexist.",
+      "paraphrase": "An authorized officer determines reserved numbers; Rule 9(2) refers SC/ST/backward-class allocation to Rule 7.",
       "qualification": "Rule 9(2) does not name women in its Rule 7 cross-reference.",
       "evidence_basis": "Official India Code indexed source text; full PDF unavailable.",
       "cited_origin": "Primary legal provision identified in the section field; historical applicability remains subject to the stated qualification.",
@@ -332,8 +343,8 @@
       "procedure": "Descending SC share; successive elections move down the list.",
       "claim_kind": "scholarly_assignment_account",
       "paraphrase": "The account assigns SC offices using a rotating population-share ranking.",
-      "qualification": "Study selects 64 GPs in 16 Samitis across four districts; it is not a statewide implementation audit.",
-      "evidence_basis": "Direct source passage; not independently verified implementation.",
+      "qualification": "The 64-GP survey sample is distinct from the 570-GP reconstruction reported in Online Appendix B.",
+      "evidence_basis": "Main-text account and Jalore rotation table; Online Appendix B separately checks observed versus predicted timing across 16 Samitis.",
       "cited_origin": "Authors’ account in the identified source passage; not independently established by this ledger.",
       "implication": "Reconstruct ranks and histories before evaluating deviations.",
       "contradiction": "An eligible GP below the reconstructed SC-share cutoff being selected while an otherwise eligible higher-ranked GP remains open would contradict the stated deterministic ranking, after resolving ties and prior-cycle exclusions.",
@@ -355,8 +366,8 @@
       "procedure": "Matched pairs around the reservation threshold.",
       "claim_kind": "design_validation",
       "paraphrase": "The design compares newly reserved GPs with nearby unreserved ranks.",
-      "qualification": "A selected cutoff sample cannot establish uniform compliance elsewhere.",
-      "evidence_basis": "Direct source passage; not independently verified implementation.",
+      "qualification": "Appendix B, p. 10, reports that no survey GP meets the author’s suspicious-misassignment definition; it does not report zero discrepancies of every kind among survey GPs.",
+      "evidence_basis": "Main-text sampling account, Table 1 and Online Appendix B, pp. 9–10.",
       "cited_origin": "Authors’ account in the identified source passage; not independently established by this ledger.",
       "implication": "Audit full pools and report deviations beyond selected pairs.",
       "contradiction": "Sampled treated and comparison GPs lying on the same side of the correctly reconstructed cutoff, or not meeting the stated prior-reservation eligibility restrictions, would contradict the described sampling design.",
@@ -638,6 +649,29 @@
       "contradiction": "No empirical rejection threshold converts nonrejection into proof of random assignment; this methodological qualification does not imply a separately falsifiable assignment algorithm.",
       "required_inputs": "Existing district transition summaries.",
       "readiness": "testable_with_current_data"
+    },
+    {
+      "claim_id": "e_chauchard_validation",
+      "source_id": "e_chauchard2014_supp",
+      "quote": "remarkably few deviations",
+      "pdf_page": "5",
+      "printed_page": "5",
+      "section": "Appendix B: Checking the Implementation of the Reservation Process",
+      "state": "Rajasthan",
+      "years": "Reservation timing across 1995–2010",
+      "office": "GP Sarpanch",
+      "category": "SC",
+      "pool": "570 GPs in 16 sampled Panchayat Samitis",
+      "procedure": "Predict reservation timing from 2001 Census SC population shares and compare with observed histories.",
+      "claim_kind": "implementation_validation",
+      "paraphrase": "Table B.2 reports 61 of 570 GPs (10.70%) reserved in a different electoral period from that predicted; 21 (3.68%) also have SC shares more than one percentage point from the predicted cutoff. Rates are reported separately for each Samiti.",
+      "qualification": "The author calls the latter group suspicious misassignments and reports that no survey GP belongs to it (p. 10). He discusses alternative Census inputs, rounding and boundary changes (pp. 6–7, 10). This reconstruction concerns SC reservation, not women’s reservation.",
+      "evidence_basis": "Online Appendix B, Table B.2 (p. 9), interpretation and survey-sample statement (p. 10); reconstruction inputs and discrepancy definition (pp. 6–7). Counts and percentages visually checked against the table.",
+      "cited_origin": "Author’s reconstruction using Census 2001, Samiti reservation records, calls to panchayat secretaries and interviews with district electoral officers.",
+      "implication": "Compare Samiti-level discrepancy rates after matching historical population inputs, reservation histories and cutoffs.",
+      "contradiction": "A matched reconstruction producing different counts would contradict these reported rates; differences in inputs must first be resolved.",
+      "required_inputs": "Historical GP boundaries, Census inputs, reservation histories and Samiti allocation cutoffs.",
+      "readiness": "requires_additional_inputs"
     }
   ]
 }

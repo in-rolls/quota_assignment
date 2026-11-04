@@ -60,3 +60,16 @@ discrepancies and qualifications. The official-provision table remains in the
 appendix, and the full extraction inventory remains in the repository.
 The Das–Mukhopadhyay–Saroy lottery setting is Rajasthan, 2010; this corrects an
 incorrect Uttar Pradesh display label in the earlier comparison table.
+
+The subsequent Chauchard correction incorporates Online Appendix B, omitted from
+the earlier extraction. Table B.2 (p. 9) checks 570 GPs in 16 Samitis, reports 61
+period discrepancies (10.70%) and 21 discrepancies more than one percentage point
+from the predicted SC-share cutoff (3.68%). Page 10 reports that none of the survey
+GPs meet the latter definition. The main table now distinguishes the 64-GP survey
+sample from this reconstruction sample and reports the Samiti-level range. These
+are SC assignment results. The publisher supplement's SHA-256 is recorded in the
+inventory; Table B.2 was visually checked. Appendix district labels include Jalore,
+whereas main-text footnote 19 names Barmer; that source inconsistency is recorded
+without inferring a reconciliation. The table separates citation and setting,
+uses landscape pages, removes inline source-link labels, and replaces editorial
+judgments with reported evidence. Document links appear in the references.
