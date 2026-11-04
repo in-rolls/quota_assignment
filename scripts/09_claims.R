@@ -197,7 +197,7 @@ writeLines(c(
   "Run make claims to validate corpus coverage, source hashes, keys and claim fields; make paper compiles it.",
   "The main quotation table and official-provision appendix share these records.", "",
   paste(nrow(main), "study/version entries appear in the main quotation table."),
-  "Official quotations appear in the legal-provision table. The full audit remains here, outside the paper.",
+  "Official quotations appear in the legal-provision table. The full extraction remains here, outside the paper.",
   "Selection covers lottery, ranking, rotation, reconstruction and documented discrepancies, with qualifications.",
   "The full extraction inventory remains available here; there is no overlapping literature table in the appendix.",
   "Printed page numbers and PDF page numbers are distinguished; source links appear in the bibliography.", "",

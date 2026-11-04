@@ -1,0 +1,66 @@
+source_id,study_id,version_role,mapping_basis
+e_constitution,constitution,primary,Shared bibliography key; source title/version retained
+e_rajasthanact,rajasthanact,primary,Shared bibliography key; source title/version retained
+e_rajasthanrules,rajasthanrules,primary,Shared bibliography key; source title/version retained
+e_upact,upact,primary,Shared bibliography key; source title/version retained
+e_uprules,uprules,primary,Shared bibliography key; source title/version retained
+e_up2021,up2021,primary,Shared bibliography key; source title/version retained
+e_chauchard2014,chauchard2014,primary,Shared bibliography key; source title/version retained
+e_dunning2013,dunning2013,primary,Shared bibliography key; source title/version retained
+e_das2023,das2023,primary,Shared bibliography key; source title/version retained
+e_weaver2024,weaver2024,primary,Shared bibliography key; source title/version retained
+e_beaman2009,beaman2009,primary,Shared bibliography key; source title/version retained
+e_bhavnani2009,bhavnani2009,primary,Shared bibliography key; source title/version retained
+e_soodquota,soodquota,primary,Shared bibliography key; source title/version retained
+e_green2023,green2023,primary,Shared bibliography key; source title/version retained
+e_chauchard2014_supp,chauchard2014,linked_supplement,Shared bibliography key; source title/version retained
+afridi_iversen_sharan_2013_iza_dp7212,afridi2013,primary,Shared bibliography key; source title/version retained
+bamezai_amar_kumar_2026_mpsa_draft,bamezai2026,primary,Shared bibliography key; source title/version retained
+ban_rao_2007_wp,ban_rao2008,earlier_version,Shared bibliography key; source title/version retained
+ban_rao_2008_deliberation_wp,ban_deliberation2008,primary,Shared bibliography key; source title/version retained
+ban_rao_2008_edcc,ban_rao2008,primary,Shared bibliography key; source title/version retained
+bardhan_mookherjee_parra_2005_wp,bardhan_mookherjee_parra2010,earlier_version,Explicit working-paper/published-version correspondence
+bardhan_mookherjee_parra_2010_jgd,bardhan_mookherjee_parra2010,primary,Shared bibliography key; source title/version retained
+beaman_duflo_pande_topalova_2011_ipf,beaman_et_al2011,primary,Shared bibliography key; source title/version retained
+beaman_duflo_pande_topalova_2012_science_pmc,beaman2012,primary,Shared bibliography key; source title/version retained
+beaman_duflo_pande_topalova_2012_science_som,beaman2012,linked_supplement,Shared bibliography key; source title/version retained
+besley_pande_rahman_rao_2004_jeea,besley2004,primary,Shared bibliography key; source title/version retained
+besley_pande_rao_2005_yale_egc_dp921,besley2005,primary,Shared bibliography key; source title/version retained
+bhalotra_clots_figueras_2013_essex_dp739,bhalotra_clots_figueras2014,earlier_version,Shared bibliography key; source title/version retained
+bhalotra_clots_figueras_2014_aejpol,bhalotra_clots_figueras2014,primary,Shared bibliography key; source title/version retained
+bose_das_2014_draft,bose_das2018,earlier_version,Shared bibliography key; source title/version retained
+bose_das_2018_rde,bose_das2018,primary,Shared bibliography key; source title/version retained
+brown_mitra_singh_2025_wp,brown_mitra_singh2025,primary,Shared bibliography key; source title/version retained
+brule_heinze_chauchard_2026_mpsa_draft,brule2026,primary,Shared bibliography key; source title/version retained
+cassan_vandewalle_2021_wd,cassan_vandewalle2021,primary,Shared bibliography key; source title/version retained
+chattopadhyay_duflo_2004_ecta,chattopadhyay2004,primary,Shared bibliography key; source title/version retained
+chaturvedi_das_mahajan_2023_wp,cdm2025,earlier_version,Shared bibliography key; source title/version retained
+chaturvedi_das_mahajan_2025_edcc,cdm2025,primary,Shared bibliography key; source title/version retained
+das_2015_wp,das2015_town_hall,primary,Shared bibliography key; source title/version retained
+deininger_jin_nagarajan_2012_ncaer_wp1,deininger_jin_nagarajan2012,primary,Shared bibliography key; source title/version retained
+deininger_jin_nagarajan_singh_2020_wb_wps9350,deininger_jin_nagarajan_singh2022,earlier_version,Shared bibliography key; source title/version retained
+deininger_jin_nagarajan_singh_2022_jds_manuscript,deininger_jin_nagarajan_singh2022,earlier_version,Shared bibliography key; source title/version retained
+deininger_jin_nagarajan_singh_2022_jds,deininger_jin_nagarajan_singh2022,primary,Shared bibliography key; source title/version retained
+deininger_jin_nagarajan_xia_2011_wb_wps5708,deininger2011,primary,Shared bibliography key; source title/version retained
+deininger_nagarajan_singh_2020_jce,deininger_nagarajan_singh2020,primary,Shared bibliography key; source title/version retained
+duflo_topalova_2004_wp,duflo_topolova2004,primary,Shared bibliography key; source title/version retained
+gajwani_zhang_2008_ifpri_dp807,gajwani2015,earlier_version,Explicit working-paper/published-version correspondence
+gajwani_zhang_2014_wb_wps6854,gajwani2015,earlier_version,Explicit working-paper/published-version correspondence
+gajwani_zhang_2015_wber,gajwani2015,primary,Shared bibliography key; source title/version retained
+ghani_kerr_oconnell_2013_wb_wps6307,b_ghani_kerr_oconnell_2013_wb_wps6307,primary,Shared bibliography key; source title/version retained
+goyal_2024_apsr,b_goyal_2024_apsr,primary,Shared bibliography key; source title/version retained
+goyal_mohapatra_2026_draft,b_goyal_mohapatra_2026_draft,primary,Shared bibliography key; source title/version retained
+hessami_fonseca_2020_iza_dp13125,b_hessami_fonseca_2020_iza_dp13125,primary,Shared bibliography key; source title/version retained
+huidobro_prillaman_singhania_2026_draft,b_huidobro_prillaman_singhania_2026_draft,primary,Shared bibliography key; source title/version retained
+nilekani_2010_yale_senior_essay,b_nilekani_2010_yale_senior_essay,primary,Shared bibliography key; source title/version retained
+pakhtigian_pattanayak_2024_wd_page_capture,b_pakhtigian_pattanayak_2024_wd_page_capture,primary,Shared bibliography key; source title/version retained
+pathak_macours_2016_wp,pathak2017,earlier_version,Explicit working-paper/published-version correspondence
+pathak_macours_2017_edcc,pathak2017,primary,Shared bibliography key; source title/version retained
+priebe_2017_ods,b_priebe_2017_ods,primary,Shared bibliography key; source title/version retained
+raabe_sekher_birner_2009_ifpri_dp878,b_raabe_sekher_birner_2009_ifpri_dp878,primary,Shared bibliography key; source title/version retained
+rajaraman_gupta_2009_nipfp_wp,b_rajaraman_gupta_2012_igdr,earlier_version,Explicit working-paper/published-version correspondence
+rajaraman_gupta_2012_igdr,b_rajaraman_gupta_2012_igdr,primary,Shared bibliography key; source title/version retained
+sathe_klasen_priebe_biniwale_2013_crc_dp138,b_sathe_klasen_priebe_biniwale_2013_epw,earlier_version,Explicit working-paper/published-version correspondence
+sathe_klasen_priebe_biniwale_2013_epw,b_sathe_klasen_priebe_biniwale_2013_epw,primary,Shared bibliography key; source title/version retained
+quota_spending_ms,b_green_singh_sood2026,primary,Shared bibliography key; source title/version retained
+quota_spending_si,b_green_singh_sood2026,linked_supplement,Shared bibliography key; source title/version retained

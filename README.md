@@ -208,6 +208,22 @@ estimate the causal contribution of bureaucratic discretion or certify historica
 rule compliance. Small-cell and linkage sensitivity, including the loss of most
 Rajasthan blocks under minimum-denominator restrictions, are part of its findings.
 
+## Literature evidence audit
+
+Run `make literature` to build the study-level evidence dataset. The pipeline links
+source versions and supplements, records positive diagnostics, distinguishes unknown
+from reviewed absence, and generates scoped candidates for disagreements about
+assignment procedures. The [current report](docs/literature_audit.md) gives coverage
+and provisional counts; the [coding protocol](docs/literature_audit_protocol.md)
+defines denominators and the remaining review work.
+
+Editable [coding sheets](data/reference/literature_audit/) link to the original
+[passage-level extraction](data/reference/assignment_claims/), retaining quotations,
+page numbers and source versions. Typed outputs, review queues and an input-hash
+manifest are built in `data/build/literature_audit/`. This stage uses committed
+inputs and needs no PDF downloads or election-data reruns. It does not yet estimate
+the share of papers relying on an untested premise or the power of their diagnostics.
+
 ## Assignment claims
 
 `make paper` includes one focused quotation table in the main text of

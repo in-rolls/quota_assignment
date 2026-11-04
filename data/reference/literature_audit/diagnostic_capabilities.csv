@@ -1,0 +1,22 @@
+diagnostic_type,label,target,coverage,rationale
+covariate_balance,Covariate balance,geographic_heterogeneity,partial,Tests selected covariate contrasts. Pooled balance can coexist with offsetting local imbalance or different assignment procedures.
+covariate_balance,Covariate balance,serial_dependence,not_targeted,Tests selected covariate contrasts. Pooled balance can coexist with offsetting local imbalance or different assignment procedures.
+covariate_balance,Covariate balance,algorithm_agreement,not_targeted,Tests selected covariate contrasts. Pooled balance can coexist with offsetting local imbalance or different assignment procedures.
+transition_dependence,Transition dependence,geographic_heterogeneity,partial,Tests dependence across observed cycles under the specified null. Pooled tests can conceal offsetting local dependence; constrained lotteries need not imply independence.
+transition_dependence,Transition dependence,serial_dependence,direct,Tests dependence across observed cycles under the specified null. Pooled tests can conceal offsetting local dependence; constrained lotteries need not imply independence.
+transition_dependence,Transition dependence,algorithm_agreement,not_targeted,Tests dependence across observed cycles under the specified null. Pooled tests can conceal offsetting local dependence; constrained lotteries need not imply independence.
+assignment_reconstruction,Assignment reconstruction,geographic_heterogeneity,partial,Compares predictions with observed assignments in the covered sample. Aggregate accuracy does not locate disagreements; historical inputs and eligibility must match.
+assignment_reconstruction,Assignment reconstruction,serial_dependence,partial,Compares predictions with observed assignments in the covered sample. Aggregate accuracy does not locate disagreements; historical inputs and eligibility must match.
+assignment_reconstruction,Assignment reconstruction,algorithm_agreement,direct,Compares predictions with observed assignments in the covered sample. Aggregate accuracy does not locate disagreements; historical inputs and eligibility must match.
+rd_density,RD density,geographic_heterogeneity,not_targeted,"Tests the running-variable distribution near a cutoff, not statewide allocation compliance or treatment-history independence."
+rd_density,RD density,serial_dependence,not_targeted,"Tests the running-variable distribution near a cutoff, not statewide allocation compliance or treatment-history independence."
+rd_density,RD density,algorithm_agreement,not_targeted,"Tests the running-variable distribution near a cutoff, not statewide allocation compliance or treatment-history independence."
+rd_covariates,RD covariate continuity,geographic_heterogeneity,partial,Tests selected covariates near the cutoff; statewide assignment and deviations away from the cutoff are separate targets.
+rd_covariates,RD covariate continuity,serial_dependence,not_targeted,Tests selected covariates near the cutoff; statewide assignment and deviations away from the cutoff are separate targets.
+rd_covariates,RD covariate continuity,algorithm_agreement,not_targeted,Tests selected covariates near the cutoff; statewide assignment and deviations away from the cutoff are separate targets.
+geographic_discrepancies,Geographic discrepancies,geographic_heterogeneity,direct,Describes location-specific observed/predicted disagreement. Attribution and separation from finite-sample noise require additional analysis.
+geographic_discrepancies,Geographic discrepancies,serial_dependence,partial,Describes location-specific observed/predicted disagreement. Attribution and separation from finite-sample noise require additional analysis.
+geographic_discrepancies,Geographic discrepancies,algorithm_agreement,partial,Describes location-specific observed/predicted disagreement. Attribution and separation from finite-sample noise require additional analysis.
+quota_counts,Quota counts,geographic_heterogeneity,partial,Checks numbers of reserved seats; correct totals can coexist with assignment to different eligible seats.
+quota_counts,Quota counts,serial_dependence,not_targeted,Checks numbers of reserved seats; correct totals can coexist with assignment to different eligible seats.
+quota_counts,Quota counts,algorithm_agreement,partial,Checks numbers of reserved seats; correct totals can coexist with assignment to different eligible seats.

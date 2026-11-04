@@ -1,0 +1,274 @@
+{
+  "studies": {
+    "study_id": {
+      "type": "character",
+      "description": "Unique underlying-study identifier; primary legal sources also receive an identifier."
+    },
+    "title": {
+      "type": "character",
+      "description": "Display title of the selected source version."
+    },
+    "inclusion": {
+      "type": "character",
+      "description": "Empirical local-assignment denominator: included, excluded, pending."
+    },
+    "inclusion_reason": {
+      "type": "character",
+      "description": "Evidence and reason for the scope decision."
+    },
+    "primary_source_id": {
+      "type": "character",
+      "description": "Preferred source version; source_id in the extraction inventory."
+    },
+    "family_status": {
+      "type": "character",
+      "description": "provisional or verified; provisional grouping is not a final paper denominator."
+    },
+    "family_note": {
+      "type": "character",
+      "description": "Reason for grouping versions; historical estimates remain version-specific."
+    }
+  },
+  "source_studies": {
+    "source_id": {
+      "type": "character",
+      "description": "Unique source version in the extraction inventory."
+    },
+    "study_id": {
+      "type": "character",
+      "description": "Study family foreign key."
+    },
+    "version_role": {
+      "type": "character",
+      "description": "primary, linked_supplement, earlier_version; primary source selected in studies."
+    },
+    "mapping_basis": {
+      "type": "character",
+      "description": "Explicit version-link rationale; no fuzzy matching at build time."
+    }
+  },
+  "reviews": {
+    "study_id": {
+      "type": "character",
+      "description": "One current review decision per study family."
+    },
+    "review_status": {
+      "type": "character",
+      "description": "not_started, in_progress, complete."
+    },
+    "main_text_status": {
+      "type": "character",
+      "description": "extracted, checked, unavailable."
+    },
+    "supplement_status": {
+      "type": "character",
+      "description": "not_checked, checked, none_verified, unavailable."
+    },
+    "no_check_status": {
+      "type": "character",
+      "description": "not_assessed, check_reported, no_check_reported."
+    },
+    "reviewer": {
+      "type": "character",
+      "description": "Person or system responsible for the coding decision."
+    },
+    "reviewed_on": {
+      "type": "character",
+      "description": "ISO date of annotation."
+    },
+    "review_note": {
+      "type": "character",
+      "description": "Scope of completed work and outstanding document checks."
+    }
+  },
+  "diagnostics": {
+    "diagnostic_id": {
+      "type": "character",
+      "description": "Unique positive diagnostic record; one claim may support several diagnostics."
+    },
+    "claim_id": {
+      "type": "character",
+      "description": "Foreign key to exact passage and source version."
+    },
+    "diagnostic_type": {
+      "type": "character",
+      "description": "Controlled method key in diagnostic_capabilities."
+    },
+    "geographic_resolution": {
+      "type": "character",
+      "description": "Reported resolution or not_coded; does not imply statewide coverage."
+    },
+    "coding_status": {
+      "type": "character",
+      "description": "extracted or rechecked; rechecked means source passage checked, not replication."
+    },
+    "coding_note": {
+      "type": "character",
+      "description": "What was inspected and what this record establishes."
+    },
+    "reviewer": {
+      "type": "character",
+      "description": "Coder identifier."
+    },
+    "reviewed_on": {
+      "type": "character",
+      "description": "ISO coding date."
+    },
+    "sample_size": {
+      "type": "integer",
+      "description": "Number of units in this diagnostic; blank means not yet coded or not reported."
+    },
+    "n_groups": {
+      "type": "integer",
+      "description": "Number of geographic groups used by this diagnostic; blank means unresolved or inapplicable."
+    },
+    "statistic": {
+      "type": "character",
+      "description": "Reported statistic or descriptive measure; not_coded until inspected."
+    },
+    "null_hypothesis": {
+      "type": "character",
+      "description": "Authors\u2019 tested null, not_coded, or not_applicable_descriptive."
+    },
+    "reported_p_value": {
+      "type": "double",
+      "description": "Reported p-value on [0,1]; blank means unresolved or inapplicable."
+    },
+    "rejection_level": {
+      "type": "double",
+      "description": "Authors\u2019 stated rejection threshold on (0,1); blank means unresolved or inapplicable."
+    },
+    "replication_status": {
+      "type": "character",
+      "description": "not_attempted, reproduced, or discrepancy; source inspection is not reproduction."
+    }
+  },
+  "diagnostic_capabilities": {
+    "diagnostic_type": {
+      "type": "character",
+      "description": "Method key; combined with target forms the primary key."
+    },
+    "label": {
+      "type": "character",
+      "description": "Reader-facing method name."
+    },
+    "target": {
+      "type": "character",
+      "description": "geographic_heterogeneity, serial_dependence, algorithm_agreement."
+    },
+    "coverage": {
+      "type": "character",
+      "description": "direct, partial, not_targeted; logical scope, not a power estimate."
+    },
+    "rationale": {
+      "type": "character",
+      "description": "Reason for scope judgment; paper-specific design can alter this judgment."
+    }
+  },
+  "accounts": {
+    "account_id": {
+      "type": "character",
+      "description": "Unique scoped procedural proposition."
+    },
+    "claim_id": {
+      "type": "character",
+      "description": "Source passage foreign key."
+    },
+    "state": {
+      "type": "character",
+      "description": "Normalized state identifier; one state per row."
+    },
+    "cycle_start": {
+      "type": "integer",
+      "description": "First election year explicitly covered; blank means unresolved."
+    },
+    "cycle_end": {
+      "type": "integer",
+      "description": "Last election year explicitly covered; blank means unresolved, not current year."
+    },
+    "office": {
+      "type": "character",
+      "description": "Office being allocated; gp_head in current coding."
+    },
+    "category": {
+      "type": "character",
+      "description": "Exact reservation category; combined categories not silently split."
+    },
+    "pool": {
+      "type": "character",
+      "description": "Allocation pool; not_resolved means scope cannot be confirmed."
+    },
+    "component": {
+      "type": "character",
+      "description": "Aspect being compared, such as ranking_measure or selection."
+    },
+    "value": {
+      "type": "character",
+      "description": "Normalized substantive description, retained alongside original wording."
+    },
+    "scope_status": {
+      "type": "character",
+      "description": "provisional or verified; verified requires source/version and scope checking."
+    },
+    "scope_note": {
+      "type": "character",
+      "description": "Evidence and unresolved scope conditions."
+    }
+  },
+  "adjudications": {
+    "account_left": {
+      "type": "character",
+      "description": "First account ID; pair order is canonicalized by pipeline."
+    },
+    "account_right": {
+      "type": "character",
+      "description": "Second account ID."
+    },
+    "status": {
+      "type": "character",
+      "description": "candidate, resolved_difference, confirmed_disagreement."
+    },
+    "scope_review": {
+      "type": "character",
+      "description": "pending or complete; complete required for confirmation."
+    },
+    "reason": {
+      "type": "character",
+      "description": "Evidence for resolution, including period, pool, version and conditional rules."
+    },
+    "reviewer": {
+      "type": "character",
+      "description": "Reviewer identifier."
+    },
+    "reviewed_on": {
+      "type": "character",
+      "description": "ISO date."
+    }
+  },
+  "claim_support": {
+    "claim_id": {
+      "type": "character",
+      "description": "Assignment or identifying claim being supported."
+    },
+    "supporting_claim_id": {
+      "type": "character",
+      "description": "Claim recording the supporting evidence or cited account."
+    },
+    "support_type": {
+      "type": "character",
+      "description": "own_diagnostic, prior_study, legal_text, institutional_argument."
+    },
+    "target": {
+      "type": "character",
+      "description": "procedure or identification; balance does not validate a literal allocation algorithm."
+    },
+    "coding_status": {
+      "type": "character",
+      "description": "extracted or rechecked."
+    },
+    "note": {
+      "type": "character",
+      "description": "Scope of the evidentiary link; unlinked claims remain unassessed, not unsupported."
+    }
+  }
+}

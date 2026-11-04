@@ -1,0 +1,12 @@
+claim_id,supporting_claim_id,support_type,target,coding_status,note
+e_chauchard_rank,e_chauchard_validation,own_diagnostic,procedure,extracted,Linked from the existing source-specific extraction; the diagnostic result and its limitations remain separate from the assignment claim.
+a_036,a_038,own_diagnostic,procedure,extracted,Linked from the existing source-specific extraction; the diagnostic result and its limitations remain separate from the assignment claim.
+a_037,a_038,own_diagnostic,procedure,extracted,Linked from the existing source-specific extraction; the diagnostic result and its limitations remain separate from the assignment claim.
+a_045,a_046,own_diagnostic,identification,extracted,Linked from the existing source-specific extraction; the diagnostic result and its limitations remain separate from the assignment claim.
+a_047,a_048,own_diagnostic,identification,extracted,Linked from the existing source-specific extraction; the diagnostic result and its limitations remain separate from the assignment claim.
+a_049,a_050,own_diagnostic,identification,extracted,Linked from the existing source-specific extraction; the diagnostic result and its limitations remain separate from the assignment claim.
+a_053,a_054,own_diagnostic,identification,extracted,Linked from the existing source-specific extraction; the diagnostic result and its limitations remain separate from the assignment claim.
+a_057,a_056,own_diagnostic,identification,extracted,Linked from the existing source-specific extraction; the diagnostic result and its limitations remain separate from the assignment claim.
+b_001,b_010,own_diagnostic,procedure,extracted,Linked from the existing source-specific extraction; the diagnostic result and its limitations remain separate from the assignment claim.
+b_002,b_010,own_diagnostic,procedure,extracted,Linked from the existing source-specific extraction; the diagnostic result and its limitations remain separate from the assignment claim.
+a_055,a_028,prior_study,procedure,rechecked,Duflo–Topalova p. 7 explicitly cites Chattopadhyay–Duflo (2004) for West Bengal 1998 compliance. The linked reconstruction is district-specific; the citation does not extend its scope to every state.
