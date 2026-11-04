@@ -4,7 +4,12 @@
 
 The source of truth is data/reference/assignment_claims/*.json. PDFs remain in the upstream collections.
 Run make claims to validate corpus coverage, source hashes, keys and claim fields; make paper compiles it.
-The note's comparison, official-provision table and claim appendix share these records.
+The note's comparison, official-provision table and quotation appendix share these records.
+
+28 study/version entries appear in the compact quotation appendix.
+Official quotations appear in the legal-provision table. The full audit remains here, outside the paper.
+The quotation table groups passages by source version and omits the short fragment 'political reservations'.
+Printed page numbers and PDF page numbers are distinguished; direct document links include PDF page anchors.
 
 Readiness is a proposed comparison, not a finding that the claim is wrong. State, period, office and category
 must match; absent historical rosters or rules remain explicit requirements.

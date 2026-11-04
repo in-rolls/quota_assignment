@@ -45,3 +45,10 @@ as departures from a legal procedure.
 On 4 November 2026, the full claim inventory was incorporated into the paper as
 an appendix. The build now produces one manuscript PDF, including all claim
 records and one shared bibliography.
+
+The reader-facing revision on 4 November replaces the full record appendix with
+28 study/version quotation entries and a separate table of official provisions.
+Internal identifiers, extraction notes and repository details remain in the
+machine-readable audit. Printed and PDF page numbers appear with excerpts;
+links distinguish direct PDFs from article or source pages. The J-PAL copy of
+Chattopadhyay–Duflo was checked against its published pagination (1414, PDF 6).

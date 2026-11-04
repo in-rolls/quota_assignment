@@ -210,14 +210,15 @@ Rajasthan blocks under minimum-denominator restrictions, are part of its finding
 
 ## Assignment claims
 
-`make paper` includes the full claim inventory as an appendix in `paper/main.pdf`,
-using [paper/assignment_appendix.tex](paper/assignment_appendix.tex). The records distinguish asserted lotteries, ranking,
+`make paper` includes a compact quotation appendix in `paper/main.pdf`,
+using [paper/assignment_appendix.tex](paper/assignment_appendix.tex). The records
+distinguish asserted lotteries, ranking,
 rotation, legal prescriptions, identifying assumptions and implementation checks.
 The [machine-readable inventory](data/reference/assignment_claims/) retains source
 versions, hashes, exact locations, short verified quotations, scope, qualifications,
 and the data needed to test each assertion. The note's main comparison table and
-legal appendix are generated from this inventory. The appendix includes screening
-dispositions for every PDF in the upstream literature corpus.
+legal appendix are generated from this inventory. The full inventory retains
+screening dispositions for every PDF in the upstream literature corpus.
 
 The inventory covers all 48 PDFs and all 23 study entries in `quota_spending/lit`,
 plus the note's external and official sources. It exposes differences in what was

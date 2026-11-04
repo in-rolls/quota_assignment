@@ -3,7 +3,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern,microtype,graphicx,booktabs,longtable,array,amsmath}
 \usepackage[round,authoryear]{natbib}
-\usepackage[hidelinks]{hyperref}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue]{hyperref}
 \usepackage{placeins}
 \graphicspath{{build/}}
 \input{build/numbers.tex}
@@ -25,8 +25,8 @@ The sharpest transition result is in Rajasthan. In the 2015--2020 transition, th
 
 The contribution is to measure this dispersion and examine its sensitivity, not to establish that earlier studies overlooked assignment. Appendix~\ref{app:claims} distinguishes studies \citep{chauchard2014,dunning2013,das2023,cdm2025,weaver2024} that describe procedures, assess balance, reconstruct assignment, or examine implementation heterogeneity. It also distinguishes their populations and election cycles. Our results do not invalidate their outcome estimates: that would require examining their identifying comparisons, the location of discrepancies relative to those comparisons, and the relevant outcome assumptions. Reexamining identifying claims across periods is also central to \citet{green2023}; the related reservation studies by \citet{soodquota,b_green_singh_sood2026} motivate attention to assignment across cycles. The latter already reports later Rajasthan heterogeneity and departures from independence in Uttar Pradesh.
 
-\section{What the sources assert}
-The assignment descriptions are empirical objects in their own right. The comparison below identifies the state, period, office, procedure, and qualifications of selected assertions relevant to Rajasthan and Uttar Pradesh. It also includes the Tamil Nadu evidence on assignment discrepancies as a precedent for studying implementation. Multiple claims from a source remain separate where their scope differs; the appendices contain every extracted assertion, exact excerpts, page references, qualifications, source-screening dispositions, and proposed tests. Different versions of a paper remain identifiable. These records are not a tally of refuted claims.
+\section{Assignment procedures described in earlier studies}
+The assignment descriptions are empirical objects in their own right. The comparison below concerns reservation of GP head offices. It identifies the state, period, quota category, procedure, and qualifications of selected assertions relevant to Rajasthan and Uttar Pradesh. It also includes the Tamil Nadu evidence on assignment discrepancies as a precedent for studying implementation. Multiple claims from a source remain separate where their scope differs; the appendix presents selected quotations with page references and the qualifications needed to interpret them. Different versions of a paper remain identifiable. These records are not a tally of refuted claims.
 
 Three distinctions organize the comparison. First, a random-assignment description can coexist with deterministic selection from a ranked list; the identifying argument then depends on the ordering and eligibility pool. Second, a successful reconstruction in one district does not establish the procedure in another state: \citet{chattopadhyay2004} reconstruct the West Bengal study district but report lacking the corresponding information for Rajasthan. Third, evidence of average balance or near-complete prediction leaves a separate question about the location and concentration of discrepancies. \citet{b_gajwani_zhang_2008_ifpri_dp807,b_gajwani_zhang_2014_wb_wps6854} already examine assignment errors, using different definitions and samples across versions. Our proposed contribution therefore concerns residual geographic variation after the stated mechanism is reconstructed, rather than a claim that implementation has never been tested.
 
@@ -44,11 +44,11 @@ A common procedure need not imply identical unconditional transition rates. The 
 Conversely, a procedural departure requires comparison with the operative rule and the information it required. A prediction error against a researcher's reconstruction is not automatically such a departure. Where several historical reconstructions remain plausible, the appropriate output is a range of compatible assignments or a classification as unresolved. A contemporaneous official list, a modern population aggregate, and an author's predicted assignment are distinct objects.
 
 \section{Data and measurement}
-The transition exercise reads checksum-pinned Rajasthan and Uttar Pradesh master panels from the upstream \texttt{local\_elections} repository. The analysis identifies GP-head observations and links reservation status across configured general-election cycles. Geographic identities and matching decisions are part of the measurement process. Early Rajasthan coverage is particularly incomplete. Consequently, the estimands concern the linked observations that enter each comparison, not an established census of historically unchanged GPs.
+We follow women's reservation of gram panchayat head offices across the 2005, 2010, 2015, and 2020 elections in Rajasthan and the 2005, 2010, 2015, and 2021 elections in Uttar Pradesh. For each pair of successive elections, we compare reservation status among GPs linked across the two years. Changes in names, boundaries, or administrative affiliation can affect these links. Early Rajasthan coverage is particularly incomplete. The transition estimates therefore describe the linked sample rather than all GPs in each state.
 
-The second exercise uses the Chaturvedi--Das--Mahajan replication data. The upstream study repository supplies this input. There are \AuditN\ records with observed assignments and the required geography in the audit sample. The primary women's prediction is the supplied instrument; a separate supplied prediction is retained as a sensitivity. SC and ST assignments are examined separately. Missing observations retain their exclusion status rather than being recoded as unreserved.
+For Uttar Pradesh's 2015 election, we compare observed reservation with assignments predicted in the replication data of \citet{cdm2025}. The sample contains \AuditN\ GPs with observed assignments and district and block identifiers. We use the authors' instrument for women's reservation as the primary prediction and their alternative prediction as a sensitivity check. We examine SC and ST reservation separately. Observations with missing reservation status are excluded.
 
-The Census linkage extension uses upstream village--GP mappings and SHRUG population data. Weaver's March 2025 source and prepared wide panel reside in \texttt{local\_elections\_up}; they are not an unpublished dependency of this repository. Modern GP boundaries do not establish historical boundaries. The linkage therefore informs future reconstruction and is not used to certify historical rank-rule compliance in this note.
+To assess the feasibility of reconstructing population-based assignment, we link Census village populations from SHRUG to GPs using village--GP crosswalks. The appendix reports the resulting population coverage. These mappings describe modern GP boundaries, which need not coincide with the boundaries used in an earlier election. The linked populations therefore provide a starting point for historical reconstruction; they do not establish compliance with the assignment rules.
 
 \section{Estimands and reference distributions}
 For geographic unit $g$ and transition $t$, define
@@ -73,7 +73,7 @@ Figure~\ref{fig:transitions} compares observed transition dispersion with the ho
 \caption{Dispersion of women's reservation-transition contrasts. The universe is linked GP-head observations with both lag groups represented within each included unit. Points show observed spread and the homogeneous-process benchmark mean; intervals show the middle 95\% of simulated benchmark spreads. Units are percentage points. The simulation preserves lag-group sizes, not the complete legal assignment mechanism.}\label{fig:transitions}
 \end{figure}
 
-Statewide disagreement with the primary women's prediction is \WomenMismatchRate\ percent. The SC and ST disagreement rates are \ScMismatchRate\ and \StMismatchRate\ percent. These rates use all available observations, including seats both sources classify as unreserved. For a rare category, high overall agreement can consequently coexist with appreciable disagreement among seats classified as reserved by either source. The generated audit table reports that alternative denominator as well.
+Statewide disagreement with the primary women's prediction is \WomenMismatchRate\ percent. The SC and ST disagreement rates are \ScMismatchRate\ and \StMismatchRate\ percent. These rates use all available observations, including seats both sources classify as unreserved. For a rare category, high overall agreement can consequently coexist with appreciable disagreement among seats classified as reserved by either source. The appendix table reports that alternative denominator as well.
 
 Figure~\ref{fig:assignment} asks whether the observed disagreements are geographically concentrated relative to the stratified reference. Women's and SC disagreements show greater dispersion than that reference. For SC, \ScBalancedBlocks\ of the \ScAffectedBlocks\ blocks with disagreements have equal numbers of false-positive and false-negative assignments. This pattern is compatible with within-pool substitutions that preserve the total quota, although it does not establish their cause. ST has few disagreements and is weakly informative about geographic implementation. The primary women's instrument and alternative prediction remain separate specifications; neither is treated as an independently verified legal assignment.
 
@@ -91,9 +91,9 @@ Figure~\ref{fig:distribution} makes the denominators visible. An extreme rate fr
 \FloatBarrier
 
 \section{Audit and sensitivity}
-The audit reconstructs the headline quantities independently and checks the distinction between the units observed and the units summarized. Its sensitivity analyses examine minimum denominators, equal-unit and seat weights, influential districts, and alternative predictions. Removing small groups changes the target population; such results must be read with their retained counts rather than presented as an automatic improvement over the primary analysis.
+We examine sensitivity to minimum denominators, equal-unit and seat weights, influential districts, and alternative predictions. Removing small groups changes the target population; such results must be read with their retained counts rather than presented as an automatic improvement over the primary analysis.
 
-The reference processes impose stronger assumptions than arithmetic correctness. Independence in the transition simulation excludes within-pool quota dependence. Exchangeability in the disagreement exercise excludes geographically correlated prediction or measurement error beyond the chosen strata. Errors in a single population input or rotation baseline can change several predictions within the same allocation pool. Fixed quotas can also pair an extra reservation with an omitted reservation elsewhere in that pool. Thus geographic concentration can arise from correlated reconstruction errors even without a departure by an official. Departures from these references can therefore reflect several mechanisms. The supplementary audit reports which numerical identities were verified and which assumptions cannot be established with current inputs.
+The reference processes impose stronger assumptions than arithmetic correctness. Independence in the transition simulation excludes within-pool quota dependence. Exchangeability in the disagreement exercise excludes geographically correlated prediction or measurement error beyond the chosen strata. Errors in a single population input or rotation baseline can change several predictions within the same allocation pool. Fixed quotas can also pair an extra reservation with an omitted reservation elsewhere in that pool. Thus geographic concentration can arise from correlated reconstruction errors even without a departure by an official. Departures from these references can therefore reflect several mechanisms. The appendix reports the sensitivity estimates; historical assignment rules remain necessary to assess these assumptions.
 
 \IfFileExists{build/audit_summary.tex}{\input{build/audit_summary.tex}}{}
 
@@ -110,7 +110,7 @@ The legal question remains specific: which applicable provision permits the obse
 \bibliographystyle{plainnat}
 \bibliography{references,claims_a,claims_b,claims_external}
 \clearpage\appendix
-\section{Generated numerical exhibits}
+\section{Numerical results}
 \subsection{Transition dispersion}
 \input{build/transition_table.tex}
 \subsection{Supplied-prediction disagreements}

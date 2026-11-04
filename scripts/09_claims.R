@@ -54,91 +54,151 @@ dir.create(build, recursive = TRUE, showWarnings = FALSE)
 readr::write_csv(sources, file.path(build, "claim_sources.csv"))
 readr::write_csv(joined, file.path(build, "assignment_claims.csv"))
 citation_token <- function(key) paste0("CITATIONTOKEN", match(key, keys), "END")
+version_labels <- c(
+  e_dunning2013 = "2012 manuscript", e_weaver2024 = "2023 working paper",
+  e_soodquota = "Undated manuscript", quota_spending_ms = "2026 manuscript",
+  quota_spending_si = "2026 supplement", beaman_duflo_pande_topalova_2012_science_som = "Supplement",
+  ban_rao_2007_wp = "2007 working paper", bose_das_2014_draft = "2014 working paper",
+  deininger_jin_nagarajan_singh_2020_wb_wps9350 = "2020 working paper",
+  deininger_jin_nagarajan_singh_2022_jds_manuscript = "2022 manuscript"
+)
+joined$paper_version <- unname(version_labels[joined$source_id])
+joined$paper_version[is.na(joined$paper_version)] <- ""
+page_locator <- function(printed, pdf, section) {
+  printed <- stringr::str_extract(printed, "^[0-9]+(?:[–,-]+[0-9]+)*")
+  pdf <- stringr::str_extract(pdf, "^[0-9]+(?:[–,-]+[0-9]+)*")
+  dplyr::case_when(
+    !is.na(printed) & !is.na(pdf) & printed != pdf ~ paste0("p. ", printed, " (PDF p. ", pdf, ")"),
+    !is.na(printed) ~ paste0("p. ", printed),
+    !is.na(pdf) ~ paste0("PDF p. ", pdf),
+    TRUE ~ section
+  )
+}
+joined$locator <- page_locator(joined$printed_page, joined$pdf_page, joined$section)
+link_urls <- ifelse(!is.na(joined$pdf_url) & nzchar(joined$pdf_url), joined$pdf_url, joined$url)
+link_labels <- ifelse(grepl("[.]pdf|type=pdf", link_urls, ignore.case = TRUE), "PDF", "Source")
+link_labels[grepl("doi.org", link_urls)] <- "Article"
+link_labels[joined$source_id %in% c("ban_rao_2007_wp", "deininger_jin_nagarajan_singh_2022_jds_manuscript")] <-
+  "Published version"
+no_public_source <- c(
+  "quota_spending_ms", "quota_spending_si", "goyal_mohapatra_2026_draft",
+  "huidobro_prillaman_singhania_2026_draft"
+)
+link_urls[!grepl("^https://", link_urls) | joined$source_id %in% no_public_source] <- ""
+pdf_start <- stringr::str_extract(joined$pdf_page, "^[0-9]+")
+has_page <- nzchar(link_urls) & link_labels == "PDF" & !is.na(pdf_start)
+link_urls[has_page] <- paste0(sub("#.*$", "", link_urls[has_page]), "#page=", pdf_start[has_page])
+link_tokens <- ifelse(nzchar(link_urls), paste0("SOURCELINKTOKEN", seq_len(nrow(joined)), "END"), "")
+joined$source_link <- link_tokens
+latex_url <- function(url) {
+  for (character in c("%", "#", "&", "_")) url <- gsub(character, paste0("\\", character), url, fixed = TRUE)
+  url
+}
+resolve_tokens <- function(output) {
+  for (i in seq_along(keys)) {
+    output <- gsub(paste0("CITATIONTOKEN", i, "END"), paste0("\\citet{", keys[i], "}"), output, fixed = TRUE)
+  }
+  for (i in which(nzchar(link_urls))) {
+    output <- gsub(link_tokens[i], paste0("\\href{", latex_url(link_urls[i]), "}{", link_labels[i], "}"),
+      output,
+      fixed = TRUE
+    )
+  }
+  output
+}
 render_table <- function(data, file, widths) {
   output <- knitr::kable(data,
     format = "latex", booktabs = TRUE, longtable = TRUE,
     row.names = FALSE, align = paste0("p{", widths, "cm}")
   )
   output <- kableExtra::kable_styling(output, latex_options = "repeat_header")
-  for (i in seq_along(keys)) {
-    output <- gsub(paste0("CITATIONTOKEN", i, "END"), paste0("\\citealp{", keys[i], "}"), output, fixed = TRUE)
-  }
-  writeLines(output, file.path(build, file))
+  writeLines(resolve_tokens(output), file.path(build, file))
 }
-# Selected contrasts keep scope and qualifications visible in the research note.
+source_label <- function(key, version, locator, link) {
+  paste0(
+    citation_token(key), ifelse(nzchar(version), paste0("; ", version), ""),
+    ", ", locator, ifelse(nzchar(link), paste0("; ", link), "")
+  )
+}
+# The paper shows substantive descriptions; the full provenance remains in the inventory.
+joined$paper_qualification <- joined$qualification
+joined$paper_qualification[joined$claim_id == "a_038"] <- paste(
+  "Agreement can be checked against the authors' predictions. An independent reconstruction also needs",
+  "the historical population inputs, eligible pools, rounding rules and boundary definitions."
+)
+joined$paper_qualification <- gsub(
+  "source-to-panel identity", "district identity", joined$paper_qualification, fixed = TRUE
+)
 main_ids <- c(
-  "a_027", "a_029", "e_chauchard_rank", "e_dunning_rank", "e_dunning_balance",
-  "a_021", "a_022", "e_das_sc_st_rank", "e_das_obc_lottery", "a_037", "a_038",
-  "b_010", "b_011", "b_041", "b_045", "b_046", "e_sood_no_repeat"
+  "a_029", "e_chauchard_rank", "e_dunning_rank", "a_022", "e_das_sc_st_rank",
+  "e_das_obc_lottery", "a_037", "a_038", "b_010", "b_041", "e_sood_no_repeat"
 )
 stopifnot(all(main_ids %in% joined$claim_id))
+main_settings <- c(
+  a_029 = "Rajasthan, 1995 and 2000; women",
+  e_chauchard_rank = "Rajasthan, 2005; SC",
+  e_dunning_rank = "Rajasthan, 1995–2010, and Bihar; SC",
+  a_022 = "Uttar Pradesh, 2005–2010; women",
+  e_das_sc_st_rank = "Uttar Pradesh, 2010; SC/ST",
+  e_das_obc_lottery = "Uttar Pradesh, 2010; OBC",
+  a_037 = "Uttar Pradesh, 2015; women",
+  a_038 = "Uttar Pradesh, 2015; women",
+  b_010 = "Tamil Nadu, 1996–2006; women and SC",
+  b_041 = "Rajasthan and Uttar Pradesh, 2005 onward; women",
+  e_sood_no_repeat = "Rajasthan and Uttar Pradesh; women"
+)
 main <- joined |>
   dplyr::filter(claim_id %in% main_ids) |>
   dplyr::arrange(match(claim_id, main_ids)) |>
   dplyr::transmute(
-    Source = paste0(citation_token(bib_key), "; ", version, " [", claim_id, "]"),
-    Scope = paste(state, years, office, category, sep = "; "),
-    `Claim and qualification` = paste(paraphrase, "Qualification:", qualification)
+    Study = source_label(bib_key, paper_version, locator, source_link),
+    Setting = unname(main_settings[claim_id]),
+    `Claim and qualification` = paste(paraphrase, paper_qualification)
   )
-render_table(main, "claims_comparison.tex", c(3.1, 4.1, 7.5))
+render_table(main, "claims_comparison.tex", c(3.3, 3.7, 7.7))
 legal <- joined |>
   dplyr::filter(grepl("legal|prescri|constitutional", claim_kind, ignore.case = TRUE)) |>
   dplyr::transmute(
-    Source = paste(citation_token(bib_key), section, sep = ": "),
-    `Provision and scope` = paste(paraphrase, state, years, sep = " "),
-    `Applicability and qualifications` = qualification
+    Provision = paste(citation_token(bib_key), section, locator, source_link, sep = "; "),
+    `Quoted wording and scope` = ifelse(nzchar(quote), paste0("“", quote, "” ", paraphrase), paraphrase),
+    `Applicability and qualifications` = paper_qualification
   )
-render_table(legal, "legal_comparison.tex", c(3.1, 6.1, 5.5))
-render_table(
-  sources |>
-    dplyr::transmute(
-      Source = citation_token(bib_key), Version = version,
-      Status = gsub("_", " ", screening_status), Note = screening_note
+render_table(legal, "legal_comparison.tex", c(3.8, 5.4, 5.5))
+quoted <- joined |>
+  dplyr::filter(nzchar(quote), !grepl("legal|prescri|constitutional", claim_kind, ignore.case = TRUE)) |>
+  dplyr::filter(claim_id != "a_025") |>
+  dplyr::arrange(bib_key, source_id) |>
+  dplyr::group_by(source_id) |>
+  dplyr::summarise(
+    Study = paste(
+      citation_token(dplyr::first(bib_key)), dplyr::first(paper_version),
+      paste(unique(state), collapse = "; "),
+      sep = ". "
     ),
-  "claims_screening.tex", c(3, 3.2, 2.5, 6)
-)
-lines <- c(
-  "\\section{Located claim records}",
-  "Each record preserves the source's scope and qualifications. Readiness describes a future comparison, not a verdict."
-)
-fields <- c(
-  "quote", "paraphrase", "state", "years", "office", "category", "pool", "procedure", "claim_kind",
-  "qualification", "evidence_basis", "cited_origin", "implication", "contradiction", "required_inputs", "readiness"
-)
-for (i in seq_len(nrow(joined))) {
-  row <- joined[i, ]
-  labels <- stringr::str_to_sentence(gsub("_", " ", fields))
-  data <- tibble::tibble(Field = labels, Record = vapply(fields, function(name) row[[name]], character(1)))
-  fragment <- knitr::kable(data,
-    format = "latex", booktabs = TRUE, longtable = TRUE,
-    row.names = FALSE, align = c("p{3cm}", "p{11.7cm}")
-  )
-  fragment <- kableExtra::kable_styling(fragment, latex_options = "repeat_header")
-  lines <- c(
-    lines, paste0("\\subsection{Claim ", gsub("_", "-", row$claim_id), "}"),
-    paste0("Source: \\citet{", row$bib_key, "}. "),
-    knitr::kable(tibble::tibble(
-      Version = row$version, `PDF page` = row$pdf_page, `Printed page` = row$printed_page, Section = row$section
-    ), format = "latex", booktabs = TRUE, row.names = FALSE, align = c("p{4.1cm}", "p{2.2cm}", "p{2.2cm}", "p{6.2cm}")),
-    "", fragment, ""
-  )
-}
-writeLines(lines, file.path(build, "claims_records.tex"))
-cat(nrow(sources), "sources screened;", nrow(claims), "claims rendered\n")
-
+    Passage = paste(paste0("“", quote, "” (", locator, "). ", source_link), collapse = " "),
+    Context = paste(unique(paste(paraphrase, paper_qualification)), collapse = " "),
+    .groups = "drop"
+  ) |>
+  dplyr::mutate(Study = gsub(". . ", ". ", Study, fixed = TRUE)) |>
+  dplyr::select(Study, `Quoted passage` = Passage, `Interpretation and limitations` = Context)
+render_table(quoted, "claims_quotations.tex", c(3, 4.7, 7))
+cat(nrow(sources), "sources screened;", nrow(claims), "claims retained;", nrow(quoted), "quotation rows rendered\n")
 priority <- joined |>
   dplyr::filter(readiness == "testable_with_current_data") |>
   dplyr::transmute(
-    Claim = gsub("_", "-", claim_id), Source = citation_token(bib_key), Implication = implication,
+    Claim = gsub("_", "-", claim_id), Source = bib_key, Implication = implication,
     `Contradictory observation` = contradiction, `Required inputs` = required_inputs
   )
-render_table(priority, "claims_next_tests.tex", c(2, 2.3, 3.3, 3.3, 3.3))
 writeLines(c(
   "# Assignment-claim inventory", "",
   paste(nrow(sources), "source versions screened;", nrow(claims), "distinct claim records."), "",
   "The source of truth is data/reference/assignment_claims/*.json. PDFs remain in the upstream collections.",
   "Run make claims to validate corpus coverage, source hashes, keys and claim fields; make paper compiles it.",
-  "The note's comparison, official-provision table and claim appendix share these records.", "",
+  "The note's comparison, official-provision table and quotation appendix share these records.", "",
+  paste(nrow(quoted), "study/version entries appear in the compact quotation appendix."),
+  "Official quotations appear in the legal-provision table. The full audit remains here, outside the paper.",
+  "The quotation table groups passages by source version and omits the short fragment 'political reservations'.",
+  "Printed page numbers and PDF page numbers are distinguished; direct document links include PDF page anchors.", "",
   "Readiness is a proposed comparison, not a finding that the claim is wrong. State, period, office and category",
   "must match; absent historical rosters or rules remain explicit requirements.", "",
   "Some conference drafts have no verified public URL or request noncirculation. Their screening notes",
