@@ -1,6 +1,6 @@
 # Assignment-claim review
 
-Reviewed on 3 November 2026. The note's supporting information contains 130 claim records from 64
+Reviewed on 3 November 2026. The note's claim appendix contains 130 claim records from 64
 source versions, including dispositions for all 48 upstream literature PDFs and
 all 23 study entries. Thirty-nine records contain short verified excerpts; the
 other records paraphrase located passages or document inaccessible sources.
@@ -41,3 +41,7 @@ Three source documents remain inaccessible for the relevant evidence. The next
 stage should begin with the scoped comparisons in `assignment_claims.md`, then
 reconstruct historical allocation pools and inputs before interpreting residuals
 as departures from a legal procedure.
+
+On 4 November 2026, the full claim inventory was incorporated into the paper as
+an appendix. The build now produces one manuscript PDF, including all claim
+records and one shared bibliography.

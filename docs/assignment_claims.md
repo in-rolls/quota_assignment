@@ -3,8 +3,8 @@
 64 source versions screened; 130 distinct claim records.
 
 The source of truth is data/reference/assignment_claims/*.json. PDFs remain in the upstream collections.
-Run make si to validate corpus coverage, source hashes, keys and claim fields, and render supporting information.
-The note's comparison, official-provision table and supporting information share these records.
+Run make claims to validate corpus coverage, source hashes, keys and claim fields; make paper compiles it.
+The note's comparison, official-provision table and claim appendix share these records.
 
 Readiness is a proposed comparison, not a finding that the claim is wrong. State, period, office and category
 must match; absent historical rosters or rules remain explicit requirements.

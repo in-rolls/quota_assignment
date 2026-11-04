@@ -199,7 +199,7 @@ The LaTeX manuscript is in [paper/main.tex](paper/main.tex), with a source-verif
 [bibliography](paper/references.bib) and generated assignment-claim and legal-provision tables.
 Run `make analysis`, `make assignment`, and `make caste` to rebuild analysis
 outputs from the pinned upstream inputs, then `make paper` to audit the numbers,
-generate LaTeX tables, macros and figures, and compile `paper/main.pdf` and its supporting information, `paper/si.pdf`.
+generate LaTeX tables, macros and figures, and compile the paper and all appendices into `paper/main.pdf`.
 `make audit` runs the independent numerical checks and sensitivity analyses.
 The paper target uses saved estimates and does not fit the Bayesian models.
 
@@ -210,13 +210,13 @@ Rajasthan blocks under minimum-denominator restrictions, are part of its finding
 
 ## Assignment claims
 
-`make si` builds the research note's supporting information at `paper/si.pdf`
-from [paper/si.tex](paper/si.tex). Its records distinguish asserted lotteries, ranking,
+`make paper` includes the full claim inventory as an appendix in `paper/main.pdf`,
+using [paper/assignment_appendix.tex](paper/assignment_appendix.tex). The records distinguish asserted lotteries, ranking,
 rotation, legal prescriptions, identifying assumptions and implementation checks.
 The [machine-readable inventory](data/reference/assignment_claims/) retains source
 versions, hashes, exact locations, short verified quotations, scope, qualifications,
 and the data needed to test each assertion. The note's main comparison table and
-legal appendix are generated from this inventory. The supporting information includes screening
+legal appendix are generated from this inventory. The appendix includes screening
 dispositions for every PDF in the upstream literature corpus.
 
 The inventory covers all 48 PDFs and all 23 study entries in `quota_spending/lit`,

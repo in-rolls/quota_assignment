@@ -132,13 +132,13 @@ priority <- joined |>
     Claim = gsub("_", "-", claim_id), Source = citation_token(bib_key), Implication = implication,
     `Contradictory observation` = contradiction, `Required inputs` = required_inputs
   )
-render_table(priority, "claims_next_tests.tex", c(2, 2.5, 3.4, 3.4, 3.4))
+render_table(priority, "claims_next_tests.tex", c(2, 2.3, 3.3, 3.3, 3.3))
 writeLines(c(
   "# Assignment-claim inventory", "",
   paste(nrow(sources), "source versions screened;", nrow(claims), "distinct claim records."), "",
   "The source of truth is data/reference/assignment_claims/*.json. PDFs remain in the upstream collections.",
-  "Run make si to validate corpus coverage, source hashes, keys and claim fields, and render supporting information.",
-  "The note's comparison, official-provision table and supporting information share these records.", "",
+  "Run make claims to validate corpus coverage, source hashes, keys and claim fields; make paper compiles it.",
+  "The note's comparison, official-provision table and claim appendix share these records.", "",
   "Readiness is a proposed comparison, not a finding that the claim is wrong. State, period, office and category",
   "must match; absent historical rosters or rules remain explicit requirements.", "",
   "Some conference drafts have no verified public URL or request noncirculation. Their screening notes",
